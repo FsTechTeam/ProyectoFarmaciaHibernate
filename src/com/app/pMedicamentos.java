@@ -215,9 +215,11 @@ public class pMedicamentos extends javax.swing.JPanel{
     }
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        cargarProducto(this.jTable1.getSelectedRow());
-        compraRapida cr = new compraRapida();
-        cr.setVisible(true);
+        int selectedRow= this.jTable1.getSelectedRow();
+        int idProd=Integer.parseInt(String.valueOf(model.getValueAt(selectedRow, 0)));
+        dCompraRapida compraRap = new dCompraRapida(new javax.swing.JFrame(), true, idProd);
+        compraRap.setVisible(true);
+        
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
