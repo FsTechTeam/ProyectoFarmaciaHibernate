@@ -1,0 +1,16 @@
+Delimiter //
+Drop Trigger if exists actualizarVentas//
+Create Trigger actualizarVentas
+Before Insert on Detalle_Venta
+For Each Row
+Begin
+Declare nuevoTotal DOUBLE default 0;
+Declare nuevasExistencias INT default 0;
+Select Total into nuevoTotal from Venta where idVenta=New.V_idVenta;
+Select Existencias into nuevasExistencias from Producto_Almacen where idProducto_Almacen=New.PA_idProducto_Almacen;
+set New.Subtotal=New.Cantidad*New.Precio;
+set nuevoTotal=nuevoTotal+New.Subtotal;
+set nuevasExistencias=nuevasExistencias-New.Cantidad;
+Update Total set Total = totalA where idVenta=New.V_idVenta;
+Update Existencias set Existencias = nuevasExistencias where idProducto_Almacen=New.PA_idProducto_Almacen;
+End//

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Articulo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f02099d8-129b-4080-ad26-bb1cbe1d8559">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="funcionario" class="java.lang.String"/>
+	<field name="proveedor" class="java.lang.String"/>
+	<field name="fecha" class="java.lang.String"/>
+	<field name="articulo" class="java.lang.String"/>
+	<field name="cantidad" class="java.lang.String"/>
+	<field name="importe" class="java.lang.Long"/>
+	<variable name="SumImporte" class="java.lang.Long" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{importe}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="48" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="80d66cd8-003a-43be-b1f6-66eabecbbef5" x="123" y="9" width="329" height="31"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Lista de Compras por Proveedores.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement uuid="35becc31-d186-46e2-a2cd-51b257dc1145" x="427" y="0" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="119a795a-2f30-4e1c-9c16-4d679d98c4ac" x="507" y="0" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="50" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="5f219c7a-88fa-4aa7-89a2-1539dbe1ecc3" mode="Opaque" x="0" y="25" width="555" height="23" backcolor="#CCCCCC"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="a07aabdc-2901-4606-bece-464b5dd373c0" x="0" y="1" width="56" height="20" forecolor="#000099"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Proveedor:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="73e7c10a-0e36-4bb9-ae9c-d9653eac6770" x="22" y="25" width="79" height="20"/>
+				<textElement/>
+				<text><![CDATA[Funcionario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5ec4ec51-bb02-4280-b4c6-195f73592ad1" x="159" y="26" width="57" height="20"/>
+				<textElement/>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="169fdb9d-49a4-4775-9e1c-d2897834261c" x="246" y="26" width="81" height="20"/>
+				<textElement/>
+				<text><![CDATA[Artículo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="253fdea6-e162-44de-8701-23aaf3d7434c" x="442" y="26" width="28" height="20"/>
+				<textElement/>
+				<text><![CDATA[Cant.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="29390dfc-d5af-41df-890e-6d2599fd0793" x="483" y="26" width="48" height="20"/>
+				<textElement/>
+				<text><![CDATA[Importe]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="55dab889-30eb-4875-9f28-1c6afe597de7" x="56" y="1" width="210" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{proveedor}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement uuid="3811ffe0-623d-44f8-a900-ae88b2915443" x="159" y="0" width="57" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="15f65e1f-249d-45d8-b64f-90228f046879" x="227" y="0" width="200" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{articulo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c4a692fd-ef49-46b5-ba21-6f8f0e1249c4" x="442" y="1" width="28" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e3f8021f-63e8-44a0-a7c0-f1a117d1a12f" x="477" y="1" width="78" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{importe}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7706dd40-037f-44fe-a286-6b40e41aa141" x="1" y="0" width="158" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{funcionario}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="20" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="36" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="7bcc007b-d50d-4dd5-aa97-cf9f1aa9dd52" x="433" y="1" width="38" height="20" forecolor="#000099"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="958c7a46-2388-4947-939e-99ede2397baf" x="471" y="1" width="84" height="20" forecolor="#000099"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{SumImporte}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="123c2035-61c3-4421-a68a-830591d45975" x="0" y="1" width="555" height="1"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>
