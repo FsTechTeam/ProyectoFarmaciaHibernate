@@ -6,12 +6,24 @@
 package com.app;
 
 import com.entidades.Articulo;
+import com.entidades.Proveedor;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.List;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.JTextComponent;
 import org.hibernate.Session;
 import util.HibernateUtil;
+import org.jdesktop.swingx.autocomplete.*;
 
 /**
  *
@@ -39,6 +51,8 @@ public class dCompraRapida extends javax.swing.JDialog {
         buscarArticulo();
         arranque();
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        addEscapeKey();
+        
     }
     private Session st;
     private DefaultTableModel model;
@@ -65,7 +79,24 @@ public class dCompraRapida extends javax.swing.JDialog {
         txtPres.setEnabled(false);
         txtTotal.setEnabled(false);
         txtPCo.setEnabled(false);
+        addEscapeKey();
+        AutoCompleteDecorator.decorate(this.cmbProveedor);
+        cargarCombo();
+        
     }
+    DefaultComboBoxModel combomodel;
+    public void cargarCombo(){
+        hibernateSession();
+        combomodel=(DefaultComboBoxModel) cmbProveedor.getModel();
+        combomodel.removeAllElements();
+        combomodel.addElement("Selecione un proveedor");
+        List<Proveedor> lista = (List<Proveedor>)st.createQuery("From Proveedor").list();
+        for(Proveedor tipoList : lista){
+            combomodel.addElement(tipoList);            
+        }
+        System.out.println(""+combomodel.getSize());
+        cmbProveedor.setModel(combomodel);
+}
     public void calcularParcial(){
         int canCompra = 0;
         double pCompra = 0;
@@ -94,6 +125,23 @@ public class dCompraRapida extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Se requiere datos numéricos.");
         }
     }
+    private void addEscapeKey(){
+        KeyStroke escape = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
+        Action escapeAction = new AbstractAction(){
+           @Override
+           public void actionPerformed(ActionEvent e){
+               dispose();
+           }      
+        };
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escape, "ESCAPE");
+        getRootPane().getActionMap().put("ESCAPE", escapeAction);
+    }
+    private void buscarProveedor(){
+        String nombre = cmbProveedor.getSelectedItem().toString();
+        System.out.println(nombre);
+    
+    
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -116,13 +164,13 @@ public class dCompraRapida extends javax.swing.JDialog {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         txtSerie = new javax.swing.JTextField();
-        txtFecha = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         txtLote = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         cmbProveedor = new javax.swing.JComboBox();
+        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
         jPanel3 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -168,12 +216,6 @@ public class dCompraRapida extends javax.swing.JDialog {
         jLabel10.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel10.setText("Fecha:");
 
-        txtFecha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFechaActionPerformed(evt);
-            }
-        });
-
         jLabel12.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel12.setText("No. Lote");
 
@@ -200,10 +242,21 @@ public class dCompraRapida extends javax.swing.JDialog {
         jLabel17.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel17.setText("Proveedor:");
 
+        cmbProveedor.setEditable(true);
         cmbProveedor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbProveedor.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                cmbProveedorFocusLost(evt);
+            }
+        });
         cmbProveedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbProveedorActionPerformed(evt);
+            }
+        });
+        cmbProveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cmbProveedorKeyPressed(evt);
             }
         });
 
@@ -225,19 +278,19 @@ public class dCompraRapida extends javax.swing.JDialog {
                     .addComponent(jLabel10)
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTotal))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(txtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtLote, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtLote, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtTotal)))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -254,10 +307,10 @@ public class dCompraRapida extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel10)
                                 .addComponent(jLabel13)
-                                .addComponent(cmbProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cmbProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -277,6 +330,11 @@ public class dCompraRapida extends javax.swing.JDialog {
         jLabel11.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel11.setText("Cantidad:");
 
+        txtCan.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCanFocusLost(evt);
+            }
+        });
         txtCan.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtCanKeyPressed(evt);
@@ -347,6 +405,11 @@ public class dCompraRapida extends javax.swing.JDialog {
         btnGuardar.setBackground(new java.awt.Color(0, 204, 0));
         btnGuardar.setText("Guardar");
         btnGuardar.setFont(new java.awt.Font("Comfortaa", 1, 14)); // NOI18N
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setBackground(new java.awt.Color(255, 0, 0));
         btnCancelar.setText("Cancelar");
@@ -429,10 +492,6 @@ public class dCompraRapida extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFechaActionPerformed
-
     private void txtTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTotalActionPerformed
@@ -473,6 +532,29 @@ public class dCompraRapida extends javax.swing.JDialog {
             btnGuardar.requestFocus();
         }
     }//GEN-LAST:event_txtTotalKeyPressed
+
+    
+
+     
+    private void cmbProveedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmbProveedorKeyPressed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_cmbProveedorKeyPressed
+
+    private void txtCanFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCanFocusLost
+        // TODO add your handling code here:
+        calcularParcial();
+    }//GEN-LAST:event_txtCanFocusLost
+
+    private void cmbProveedorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbProveedorFocusLost
+        // TODO add your handling code here:
+        this.cmbProveedor.getSelectedIndex();
+    }//GEN-LAST:event_cmbProveedorFocusLost
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -540,9 +622,9 @@ public class dCompraRapida extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JSeparator jSeparator1;
+    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     private javax.swing.JTextField txtCan;
     private javax.swing.JTextField txtDes;
-    private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtLote;
     private javax.swing.JTextField txtNfactura;
     private javax.swing.JTextField txtPCo;

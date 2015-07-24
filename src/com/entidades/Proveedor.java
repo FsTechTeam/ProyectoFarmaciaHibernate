@@ -11,13 +11,25 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Geek
  */
 @Entity
+@Table(name = "Proveedor")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Proveedor.findAll", query = "SELECT a FROM Proveedor a"),
+    @NamedQuery(name = "Proveedor.findBydes", query = "SELECT a FROM Proveedor a WHERE a. des like :descripcion"),
+    @NamedQuery(name = "Proveedor.findBydes&pres", query = "SELECT a FROM Proveedor a WHERE a. des = :descripcion"),
+
+})
 public class Proveedor implements Serializable {
     private List<CompraCab> compraCabs = new ArrayList<CompraCab>();
     private int id;

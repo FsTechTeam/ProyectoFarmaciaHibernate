@@ -595,7 +595,6 @@ public class Principal extends javax.swing.JFrame{
         this.jTabbedPane1.removeAll();
         pPrincipal principal = new pPrincipal();
         this.jTabbedPane1.add(principal);
-        
         this.jTabbedPane1.setSize(jTabbedPane1.getHeight(), jTabbedPane1.getWidth());
         this.jTabbedPane1.setMaximumSize(this.jTabbedPane1.getSize());
         principal.setVisible(true);
