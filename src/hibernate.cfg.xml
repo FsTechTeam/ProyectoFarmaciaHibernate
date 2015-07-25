@@ -17,5 +17,6 @@
     <mapping class="com.entidades.Tipo"/>
     <mapping class="com.entidades.VentaCab"/>
     <mapping class="com.entidades.VentaDet"/>
+    <mapping class="com.entidades.Lote"/>
   </session-factory>
 </hibernate-configuration>
