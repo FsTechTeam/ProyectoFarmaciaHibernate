@@ -5,7 +5,10 @@
 package com.entidades;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -31,6 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 })
 public class Articulo implements Serializable {
+    private List<Lote> lotes = new ArrayList<Lote>();
     private int id;
     private String des;
     private double pco;
@@ -88,6 +93,13 @@ public class Articulo implements Serializable {
 
     public void setPve(double pve) {
         this.pve = pve;
+    }
+    @OneToMany(mappedBy = "Lote", cascade = CascadeType.ALL)
+    public List<Lote> getLote(){
+        return lotes;
+    }
+    public void setLotes(List<Lote> lotes){
+        this.lotes=lotes;
     }
 
     @ManyToOne
