@@ -31,7 +31,26 @@ public class CompraCab implements Serializable {
     private Calendar fecha;
     private String hora;
     private double total;
+    private String NFactura;
+    private String Serie;
 
+    public String getNFactura() {
+        return NFactura;
+    }
+
+    public void setNFactura(String NFactura) {
+        this.NFactura = NFactura;
+    }
+
+    public String getSerie() {
+        return Serie;
+    }
+
+    public void setSerie(String Serie) {
+        this.Serie = Serie;
+    }
+
+    
     public int getNum() {
         return num;
     }

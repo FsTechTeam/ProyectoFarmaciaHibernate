@@ -22,13 +22,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Geek
  */
 @Entity
-@Table(name="Lote")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name="Lote.findAll", query = "SELECT a FROM Lote a"),
-    @NamedQuery(name="Lote.findByNum", query = "SELECT a FROM Lote a WHERE a.NLote LIKE : numeroL"),
-    @NamedQuery(name="Lote.findByFecha", query = "SELECT a FROM Lote a WHERE a.FechaV =:fecha"),
-})
 public class Lote implements Serializable{
     
     private int id;

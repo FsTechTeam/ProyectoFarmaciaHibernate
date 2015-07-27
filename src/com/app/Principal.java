@@ -448,7 +448,7 @@ public class Principal extends javax.swing.JFrame{
     private void jLabel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel19MouseClicked
         // TODO add your handling code here:
         
-        //llamarCompras();
+        llamarCompras();
     }//GEN-LAST:event_jLabel19MouseClicked
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked

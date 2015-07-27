@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 })
 public class Articulo implements Serializable {
-    private List<Lote> lotes = new ArrayList<Lote>();
+    private List<Lote> lote = new ArrayList<Lote>();
     private int id;
     private String des;
     private double pco;
@@ -44,7 +44,9 @@ public class Articulo implements Serializable {
     private int can;
     private Tipo tipo;
     
+    
 
+    
     public int getCan() {
         return can;
     }
@@ -94,13 +96,8 @@ public class Articulo implements Serializable {
     public void setPve(double pve) {
         this.pve = pve;
     }
-    @OneToMany(mappedBy = "Lote", cascade = CascadeType.ALL)
-    public List<Lote> getLote(){
-        return lotes;
-    }
-    public void setLotes(List<Lote> lotes){
-        this.lotes=lotes;
-    }
+    
+    
 
     @ManyToOne
     public Tipo getTipo() {
@@ -110,6 +107,17 @@ public class Articulo implements Serializable {
     public void setTipo(Tipo tipo) {
         this.tipo = tipo;
     }
+
+    @OneToMany(mappedBy = "articulo",cascade= CascadeType.ALL)
+    public List<Lote> getLote() {
+        return lote;
+    }
+
+    public void setLote(List<Lote> lote) {
+        this.lote = lote;
+    }
+    
+    
     
     @Override
     public String toString(){

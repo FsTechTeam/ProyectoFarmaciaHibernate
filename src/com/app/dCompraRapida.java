@@ -6,21 +6,32 @@
 package com.app;
 
 import com.entidades.Articulo;
+import com.entidades.CompraCab;
+import com.entidades.CompraDet;
+import com.entidades.Funcionario;
 import com.entidades.Proveedor;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.JTextComponent;
+import org.codehaus.groovy.tools.shell.util.SimpleCompletor;
 import org.hibernate.Session;
 import util.HibernateUtil;
 import org.jdesktop.swingx.autocomplete.*;
@@ -34,7 +45,8 @@ public class dCompraRapida extends javax.swing.JDialog {
     /**
      * Creates new form dCompraRapida
      */
-    private int idProd=0;
+    private  int idProd=0;
+    private int numCompra=0;
     public dCompraRapida(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -52,6 +64,8 @@ public class dCompraRapida extends javax.swing.JDialog {
         arranque();
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         addEscapeKey();
+        retornarFechaHoy();
+        
         
     }
     private Session st;
@@ -96,6 +110,7 @@ public class dCompraRapida extends javax.swing.JDialog {
         }
         System.out.println(""+combomodel.getSize());
         cmbProveedor.setModel(combomodel);
+        
 }
     public void calcularParcial(){
         int canCompra = 0;
@@ -109,6 +124,8 @@ public class dCompraRapida extends javax.swing.JDialog {
             this.txtTotal.setText(String.valueOf(totalParcial)); 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Se requiere datos numéricos.");
+            this.txtCan.setText(null);
+            this.txtCan.requestFocus();
         }
     }
     public void calcularParcial2(){
@@ -123,6 +140,10 @@ public class dCompraRapida extends javax.swing.JDialog {
             this.txtPCo.setText(String.valueOf(totalParcial)); 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Se requiere datos numéricos.");
+            this.txtCan.setText(null);
+            this.txtTotal.setText(null);
+            this.txtTotal.requestFocus();
+            
         }
     }
     private void addEscapeKey(){
@@ -136,12 +157,141 @@ public class dCompraRapida extends javax.swing.JDialog {
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escape, "ESCAPE");
         getRootPane().getActionMap().put("ESCAPE", escapeAction);
     }
-    private void buscarProveedor(){
-        String nombre = cmbProveedor.getSelectedItem().toString();
-        System.out.println(nombre);
-    
-    
+    public void guardar(){
+    //Metodo que nos permite almacenar los datos intruducidos en la base de datos,
+    //los datos se guardan en la tabla CompraCab y CompraDet.
+    //la primera almacena la cabecera de compra y la segunda los detalles.
+        if (this.txtNfactura.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El campo factura es necesario");
+        }else{
+            if (this.txtSerie.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "El campo 'Serie' es necesario");
+            }
+            else{
+                if (this.txtLote.getText().isEmpty()) {
+                    try{
+                        int nLote = Integer.parseInt(this.txtLote.getText());
+                    }catch(Exception e){
+                        JOptionPane.showMessageDialog(null, "El numero de Lote tiene que ser numerico");
+                    }
+                }else{
+                    if (this.cmbProveedor.getSelectedItem().equals(null)) {
+                        JOptionPane.showMessageDialog(null, "Seleccione un proveedor valido");
+                    }else{
+                        if (this.txtCan.getText().isEmpty()) {
+                            JTextArea textarea = new  JTextArea("test");
+                            textarea.setEditable(true);
+                            JOptionPane.showMessageDialog(txtCan, "Test","Error",JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "¿Cuantas unidades de "+txtDes.getText()+" desea comprar?");
+                        }
+                        else{
+                            int confirmacion = JOptionPane.showConfirmDialog(null, "¿Desea Guardar esta compra?", "Confirmacion", JOptionPane.YES_NO_OPTION);
+                            if (confirmacion==0) {
+                              try{  
+                                st.beginTransaction();
+                                CompraCab compra = new CompraCab();
+                                int idFun = 1;
+                                int idPrv = ((Proveedor)cmbProveedor.getSelectedItem()).getId();
+                                double totalCompra = Double.parseDouble(this.txtTotal.getText());
+                                String NFac = txtNfactura.getText();
+                                String Ser = txtSerie.getText();
+                                Funcionario funcionario = (Funcionario)st.load(Funcionario.class, idFun);
+                                Proveedor proveedor = (Proveedor)st.load(Proveedor.class, idPrv);
+                                SimpleDateFormat formato = new SimpleDateFormat("YYMMdd");
+                                String fecha1 = formato.format(fecha.getDate());
+                                Calendar fechaCompra = retornarCalendar(fecha1);
+                                Calendar cal = Calendar.getInstance();
+                                String horaCompra = retornarStringHora(cal);
+                                System.out.println(horaCompra);
+                                obtenetID();
+                                compra.setNFactura(NFac);
+                                compra.setSerie(Ser);
+                                compra.setNum(numCompra);
+                                compra.setProveedor(proveedor);
+                                compra.setFuncionario(funcionario);
+                                compra.setFecha(fechaCompra);
+                                compra.setHora(horaCompra);
+                                compra.setTotal(totalCompra);
+                                funcionario.getCompraCabs().add(compra);
+                                proveedor.getCompraCabs().add(compra);
+                                CompraDet detalleCompra = new CompraDet();
+                                int idArticulo = idProd;
+                                Articulo ventaArticulo = (Articulo)st.load(Articulo.class, idArticulo);
+                                int cantCompra = Integer.parseInt(txtCan.getText());
+                                double importeVenta = Double.parseDouble(txtTotal.getText());
+                                detalleCompra.setArticulo(ventaArticulo);
+                                detalleCompra.setCantidad(cantCompra);
+                                detalleCompra.setImporte(importeVenta);
+                                detalleCompra.setCabecera(compra);
+                                compra.getCompraDets().add(detalleCompra);
+                                st.save(compra);
+                                st.getTransaction().commit();
+                                actualizarStrock(cantCompra, idArticulo);
+                                arranque();
+                                JOptionPane.showMessageDialog(null, "Compra realizada con exito.");
+                            }catch(Exception e ){JOptionPane.showMessageDialog(null, "Error en la compra");}
+                          }
+                            
+                        }
+                    }
+                }
+            }
+            
+        }
+}
+   public void obtenetID(){
+    //Utilizamos el método siguiente para conseguir en número de compra...
+    //correspondiente
+    numCompra = 0;
+    List<CompraCab> lista = (List<CompraCab>)st.createQuery("From CompraCab").list();
+    for (Iterator<CompraCab> it = lista.iterator(); it.hasNext();) {
+        CompraCab compraCab = it.next();
+        numCompra = compraCab.getNum() + 1;
     }
+    if(numCompra==0){
+        numCompra=1;
+    } 
+}
+   public Calendar retornarCalendar(String fecha){
+        //Se le pasa como argumento un String-Fecha y la combierte en objeto calendar.
+        SimpleDateFormat sdf = new SimpleDateFormat("YYMMDD");
+        Calendar cal = Calendar.getInstance();    
+        try {
+            cal.setTime(sdf.parse(fecha));
+        } catch (ParseException ex) {
+          JOptionPane.showMessageDialog(null, "Error; compruebe formato de fecha: " + ex);  
+        }
+        return cal;
+    }
+    public String retornarStringHora(Calendar fecha){
+        //Médodo que se le para un objeto calendar y la combierte en formato String-hora
+        String retorno=null;
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        if (fecha != null) {
+        retorno = sdf.format(fecha.getTime());
+        }
+        return retorno;
+    } 
+    public void retornarFechaHoy(){
+        Timestamp stamp = new Timestamp(System.currentTimeMillis());
+        Date date2 = new Date(stamp.getTime());
+        System.out.println(date2);
+        SimpleDateFormat formato = new SimpleDateFormat("YYYY-MM-dd");
+        System.out.println("" + formato.format(date2));
+        fecha.setDate(date2);
+    }
+    
+   
+    public void actualizarStrock(int cantidadCompra, int idArticulo){
+    //Despúes que el proceso de guardado se de de forma correcta, 
+    //se actualizar el stock de los artículos comprados.
+    st.beginTransaction();
+    Articulo actualizar = (Articulo)st.load(Articulo.class, idArticulo);
+    int temp = actualizar.getCan() + cantidadCompra;
+    actualizar.setCan(temp);
+    st.update(actualizar);
+    st.getTransaction().commit();
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -170,7 +320,7 @@ public class dCompraRapida extends javax.swing.JDialog {
         txtTotal = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         cmbProveedor = new javax.swing.JComboBox();
-        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
+        fecha = new com.toedter.calendar.JDateChooser();
         jPanel3 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -191,6 +341,7 @@ public class dCompraRapida extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -220,7 +371,7 @@ public class dCompraRapida extends javax.swing.JDialog {
         jLabel12.setText("No. Lote");
 
         jLabel13.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel13.setText("Total esta factura:");
+        jLabel13.setText("Total factura:");
 
         txtTotal.setBackground(new java.awt.Color(0, 51, 102));
         txtTotal.setFont(new java.awt.Font("Hiragino Maru Gothic Pro", 1, 18)); // NOI18N
@@ -280,9 +431,9 @@ public class dCompraRapida extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -290,8 +441,8 @@ public class dCompraRapida extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTotal)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                        .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -308,10 +459,10 @@ public class dCompraRapida extends javax.swing.JDialog {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel10)
-                                .addComponent(jLabel13)
-                                .addComponent(cmbProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(cmbProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel13)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
@@ -426,24 +577,23 @@ public class dCompraRapida extends javax.swing.JDialog {
                 .addGap(25, 25, 25)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addComponent(jLabel16))
-                    .addComponent(jLabel7)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 711, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(13, 13, 13)
+                                .addComponent(jLabel16))
+                            .addComponent(jLabel7)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 711, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(18, 18, 18))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(322, 322, 322)
+                .addGap(343, 343, 343)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -460,16 +610,16 @@ public class dCompraRapida extends javax.swing.JDialog {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(12, 12, 12)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
-                .addGap(0, 13, Short.MAX_VALUE))
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -553,6 +703,10 @@ public class dCompraRapida extends javax.swing.JDialog {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
+        guardar();
+      
+                                
+        
         
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -604,6 +758,7 @@ public class dCompraRapida extends javax.swing.JDialog {
     private org.edisoncor.gui.button.ButtonNice buttonNice1;
     private org.edisoncor.gui.button.ButtonRect buttonRect1;
     private javax.swing.JComboBox cmbProveedor;
+    private com.toedter.calendar.JDateChooser fecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -622,7 +777,6 @@ public class dCompraRapida extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JSeparator jSeparator1;
-    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     private javax.swing.JTextField txtCan;
     private javax.swing.JTextField txtDes;
     private javax.swing.JTextField txtLote;

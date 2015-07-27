@@ -843,7 +843,10 @@ public void obtenetID(){
     List<CompraCab> lista = (List<CompraCab>)st.createQuery("From CompraCab").list();
     for (Iterator<CompraCab> it = lista.iterator(); it.hasNext();) {
         CompraCab compraCab = it.next();
-        numCompra = compraCab.getNum() + 1;
+        if (compraCab.getNum()!=0) {
+            numCompra = compraCab.getNum() + 1;
+        }
+        
     }
     if(numCompra==0){
         numCompra=1;
@@ -1118,6 +1121,7 @@ public void guardar(){
                     compra.setProveedor(proveedor);
                     compra.setFuncionario(funcionario);
                     compra.setFecha(fechaCompra);
+                    
                     compra.setHora(horaCompra);
                     compra.setTotal(totalCompra);
                     funcionario.getCompraCabs().add(compra);

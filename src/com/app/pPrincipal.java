@@ -236,7 +236,6 @@ public class pPrincipal extends javax.swing.JPanel {
     private void buttonTransluceIcon2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonTransluceIcon2MouseClicked
         // TODO add your handling code here:
         Date date = new Date(jDateChooser1.getDate().getTime() + 86400000);
-
         SimpleDateFormat formato = new SimpleDateFormat("YYMMdd");
         jDateChooser1.setDate(date);
         //arranque();
