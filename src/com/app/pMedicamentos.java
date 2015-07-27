@@ -35,7 +35,7 @@ public class pMedicamentos extends javax.swing.JPanel{
     
     private Session st;
     private DefaultTableModel model;
-        private void hibernateSession(){
+    private void hibernateSession(){
     st = HibernateUtil.getSessionFactory().openSession();
     }
     
@@ -112,6 +112,11 @@ public class pMedicamentos extends javax.swing.JPanel{
         menuTablaMedicamentos.add(jMenuItem1);
 
         jMenuItem2.setText("Estadisticas");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         menuTablaMedicamentos.add(jMenuItem2);
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -219,6 +224,7 @@ public class pMedicamentos extends javax.swing.JPanel{
         int idProd=Integer.parseInt(String.valueOf(model.getValueAt(selectedRow, 0)));
         dCompraRapida compraRap = new dCompraRapida(new javax.swing.JFrame(), true, idProd);
         compraRap.setVisible(true);
+        arranque();
         
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -227,6 +233,10 @@ public class pMedicamentos extends javax.swing.JPanel{
         int selectedRow= this.jTable1.getSelectedRow();
         System.out.println(String.valueOf(model.getValueAt(selectedRow, 0)));
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

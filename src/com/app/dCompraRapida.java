@@ -229,6 +229,7 @@ public class dCompraRapida extends javax.swing.JDialog {
                                 actualizarStrock(cantCompra, idArticulo);
                                 arranque();
                                 JOptionPane.showMessageDialog(null, "Compra realizada con exito.");
+                                this.dispose();
                             }catch(Exception e ){JOptionPane.showMessageDialog(null, "Error en la compra");}
                           }
                             
