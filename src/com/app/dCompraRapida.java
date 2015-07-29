@@ -9,7 +9,10 @@ import com.entidades.Articulo;
 import com.entidades.CompraCab;
 import com.entidades.CompraDet;
 import com.entidades.Funcionario;
+import com.entidades.Lote;
 import com.entidades.Proveedor;
+import com.entidades.Tipo;
+import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
@@ -65,6 +68,7 @@ public class dCompraRapida extends javax.swing.JDialog {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         addEscapeKey();
         retornarFechaHoy();
+        cmbLote.setEnabled(false);
         
         
     }
@@ -96,6 +100,7 @@ public class dCompraRapida extends javax.swing.JDialog {
         addEscapeKey();
         AutoCompleteDecorator.decorate(this.cmbProveedor);
         cargarCombo();
+        
         
     }
     DefaultComboBoxModel combomodel;
@@ -168,20 +173,11 @@ public class dCompraRapida extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "El campo 'Serie' es necesario");
             }
             else{
-                if (this.txtLote.getText().isEmpty()) {
-                    try{
-                        int nLote = Integer.parseInt(this.txtLote.getText());
-                    }catch(Exception e){
-                        JOptionPane.showMessageDialog(null, "El numero de Lote tiene que ser numerico");
-                    }
-                }else{
+                
                     if (this.cmbProveedor.getSelectedItem().equals(null)) {
                         JOptionPane.showMessageDialog(null, "Seleccione un proveedor valido");
                     }else{
                         if (this.txtCan.getText().isEmpty()) {
-                            JTextArea textarea = new  JTextArea("test");
-                            textarea.setEditable(true);
-                            JOptionPane.showMessageDialog(txtCan, "Test","Error",JOptionPane.ERROR_MESSAGE);
                             JOptionPane.showMessageDialog(null, "¿Cuantas unidades de "+txtDes.getText()+" desea comprar?");
                         }
                         else{
@@ -235,7 +231,7 @@ public class dCompraRapida extends javax.swing.JDialog {
                             
                         }
                     }
-                }
+                
             }
             
         }
@@ -293,6 +289,27 @@ public class dCompraRapida extends javax.swing.JDialog {
     st.update(actualizar);
     st.getTransaction().commit();
 }
+    
+
+    
+    public boolean buscarLote(int idlote){
+        boolean find=false;
+        try{
+            Lote lote=(Lote)st.load(Lote.class, idlote);
+            find=true;
+        }catch(Exception e){
+            find =false;
+        }
+        return find;
+    }
+    public void ingresarNuevoLote(){
+        int nLote= Integer.parseInt((String) cmbLote.getSelectedItem());
+        
+        
+        
+        
+    
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -316,12 +333,12 @@ public class dCompraRapida extends javax.swing.JDialog {
         jLabel10 = new javax.swing.JLabel();
         txtSerie = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        txtLote = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         cmbProveedor = new javax.swing.JComboBox();
         fecha = new com.toedter.calendar.JDateChooser();
+        cmbLote = new javax.swing.JComboBox();
         jPanel3 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -412,6 +429,14 @@ public class dCompraRapida extends javax.swing.JDialog {
             }
         });
 
+        cmbLote.setEditable(true);
+        cmbLote.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbLote.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                cmbLoteFocusLost(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -434,16 +459,17 @@ public class dCompraRapida extends javax.swing.JDialog {
                     .addComponent(txtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtLote, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addGap(31, 31, 31)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                    .addComponent(cmbLote, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -455,7 +481,7 @@ public class dCompraRapida extends javax.swing.JDialog {
                             .addComponent(txtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9)
                             .addComponent(jLabel12)
-                            .addComponent(txtLote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cmbLote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -705,11 +731,22 @@ public class dCompraRapida extends javax.swing.JDialog {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
         guardar();
-      
+        
                                 
         
         
     }//GEN-LAST:event_btnGuardarActionPerformed
+    
+    private void cmbLoteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbLoteFocusLost
+        // TODO add your handling code here:
+        int idLote= ((Lote)cmbLote.getSelectedItem()).getId();
+        if(buscarLote(idLote)){
+            JOptionPane.showMessageDialog(null, "Lote valido");
+        }else{
+            ingresarNuevoLote();
+        }
+        
+    }//GEN-LAST:event_cmbLoteFocusLost
 
     /**
      * @param args the command line arguments
@@ -758,6 +795,7 @@ public class dCompraRapida extends javax.swing.JDialog {
     private org.edisoncor.gui.button.ButtonSeven btnGuardar;
     private org.edisoncor.gui.button.ButtonNice buttonNice1;
     private org.edisoncor.gui.button.ButtonRect buttonRect1;
+    private javax.swing.JComboBox cmbLote;
     private javax.swing.JComboBox cmbProveedor;
     private com.toedter.calendar.JDateChooser fecha;
     private javax.swing.JLabel jLabel1;
@@ -780,7 +818,6 @@ public class dCompraRapida extends javax.swing.JDialog {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField txtCan;
     private javax.swing.JTextField txtDes;
-    private javax.swing.JTextField txtLote;
     private javax.swing.JTextField txtNfactura;
     private javax.swing.JTextField txtPCo;
     private javax.swing.JTextField txtPres;

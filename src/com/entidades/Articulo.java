@@ -4,6 +4,7 @@
  */
 package com.entidades;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -108,14 +109,8 @@ public class Articulo implements Serializable {
         this.tipo = tipo;
     }
 
-    @OneToMany(mappedBy = "articulo",cascade= CascadeType.ALL)
-    public List<Lote> getLote() {
-        return lote;
-    }
-
-    public void setLote(List<Lote> lote) {
-        this.lote = lote;
-    }
+    
+    
     
     
     
@@ -123,6 +118,14 @@ public class Articulo implements Serializable {
     public String toString(){
         return this.des;
     
+    }
+    @OneToMany(mappedBy = "articulo")
+    public List<Lote> getLote() {
+        return lote;
+    }
+
+    public void setLote(List<Lote> lote) {
+        this.lote = lote;
     }
     
        

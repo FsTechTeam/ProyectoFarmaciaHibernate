@@ -6,6 +6,7 @@
 package com.entidades;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,7 +27,7 @@ public class Lote implements Serializable{
     
     private int id;
     private int NLote;
-    private Date FechaV;
+    private Calendar FechaV;
     private Articulo articulo;
 
     public int getNLote() {
@@ -37,11 +38,11 @@ public class Lote implements Serializable{
         this.NLote = NLote;
     }
 
-    public Date getFechaV() {
+    public Calendar getFechaV() {
         return FechaV;
     }
 
-    public void setFechaV(Date FechaV) {
+    public void setFechaV(Calendar FechaV) {
         this.FechaV = FechaV;
     }
     
