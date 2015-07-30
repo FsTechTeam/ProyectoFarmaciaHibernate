@@ -12,7 +12,7 @@ package com.app;
 
 import com.entidades.Articulo;
 import com.entidades.Tipo;
-import com.informes.ArticuloR;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

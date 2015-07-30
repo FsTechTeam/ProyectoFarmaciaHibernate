@@ -6,6 +6,8 @@
 package com.app;
 
 import com.entidades.Articulo;
+import com.reportes.IniciarReportes;
+import static java.awt.image.ImageObserver.WIDTH;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.Query;
@@ -232,10 +234,15 @@ public class pMedicamentos extends javax.swing.JPanel{
         // TODO add your handling code here:
         int selectedRow= this.jTable1.getSelectedRow();
         System.out.println(String.valueOf(model.getValueAt(selectedRow, 0)));
+       
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
+        int selectedRow= this.jTable1.getSelectedRow();
+        int idProd=Integer.parseInt(String.valueOf(model.getValueAt(selectedRow, 0)));
+        pEstadisticasProducto estP = new pEstadisticasProducto(new javax.swing.JFrame(), true, idProd);
+        estP.setVisible(true);
+        arranque();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
 

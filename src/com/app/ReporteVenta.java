@@ -10,17 +10,22 @@
  */
 package com.app;
 
+import com.entidades.CompraCab;
+import com.entidades.CompraDet;
 import com.entidades.Funcionario;
 import com.entidades.VentaCab;
 import com.entidades.VentaDet;
-import com.informes.VentaR;
+import com.reportes.IniciarReportes;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -57,6 +62,7 @@ public class ReporteVenta extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -66,12 +72,12 @@ public class ReporteVenta extends javax.swing.JDialog {
         verG = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        inicioF = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
-        finF = new javax.swing.JFormattedTextField();
         verF = new javax.swing.JButton();
         listaF = new javax.swing.JComboBox();
         jLabel6 = new javax.swing.JLabel();
+        jFecha1 = new com.toedter.calendar.JDateChooser();
+        jFecha2 = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Formulario de Reportes");
@@ -144,19 +150,7 @@ public class ReporteVenta extends javax.swing.JDialog {
 
         jLabel4.setText("Fechas inicio (día/mes/año)");
 
-        try {
-            inicioF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-
         jLabel5.setText("Fechas fin (días/mes/año)");
-
-        try {
-            finF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
 
         verF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/img/secund.png"))); // NOI18N
         verF.setText("VER");
@@ -175,16 +169,23 @@ public class ReporteVenta extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(inicioF, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(finF, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addGap(18, 18, 18)
-                        .addComponent(verF))
                     .addComponent(listaF, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel6))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel6)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jFecha2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(16, 16, 16)
+                                        .addComponent(jFecha1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addComponent(verF)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -197,14 +198,17 @@ public class ReporteVenta extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(inicioF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(finF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jFecha1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel5))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(jFecha2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(verF))
-                .addGap(58, 58, 58))
+                .addGap(74, 74, 74))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -216,9 +220,9 @@ public class ReporteVenta extends javax.swing.JDialog {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(141, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(139, 139, 139))
         );
@@ -239,22 +243,11 @@ public class ReporteVenta extends javax.swing.JDialog {
 
     private void verGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verGActionPerformed
         //Condición agregada para ejecutar el informe.
-        if(!inicioG.getText().isEmpty() && !finG.getText().isEmpty()){
-            informeGeneral();
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Especifique una fecha correcta.");
-        }
+       
     }//GEN-LAST:event_verGActionPerformed
 
     private void verFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verFActionPerformed
-        //Condición agregada para ejecutar el informe.
-        if(!inicioF.getText().isEmpty() && !finF.getText().isEmpty() && !listaF.getSelectedItem().toString().isEmpty()){
-            informeFuncionario();
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Especifique los datos necesarios. -Fecha- y -Funcionario-");
-        }        
+        
     }//GEN-LAST:event_verFActionPerformed
 
     /**
@@ -301,10 +294,11 @@ public class ReporteVenta extends javax.swing.JDialog {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JFormattedTextField finF;
     private javax.swing.JFormattedTextField finG;
-    private javax.swing.JFormattedTextField inicioF;
     private javax.swing.JFormattedTextField inicioG;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jFecha1;
+    private com.toedter.calendar.JDateChooser jFecha2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -327,8 +321,7 @@ private void arranque(){
     String fecha = retornarString(cal);
     inicioG.setText(fecha);
     finG.setText(fecha);
-    inicioF.setText(fecha);
-    finF.setText(fecha);
+    
     //Creamos una lista de funcionarios para llenar nuestro lista desplegable o comboBox.
     List<Funcionario> listF = (List<Funcionario>)st.createQuery("From Funcionario").list();
     //Otra forma de navegar por una lista a diferencia de Iterator.
@@ -358,95 +351,49 @@ public Calendar retornarCalendar(String fecha){
         }
         return cal;
 }
-public void informeGeneral(){
-    //Método para nuestro informe general
-    //try - para controlar las excepciones.
-    try {               
-        //Iniciamos una transacción
-        st.beginTransaction();
-        //Utilizamos un Lista para almacenar los datos combinados.
-        //Inicializamos nuestra lista como ArrayList().
-        List ventaList = new ArrayList();
-        //Creamos una Query utilizando nuestra sesión y HQL (Hibernate Query Language)
-        //Las condiciones son - fecha de inicio y fin.
-        Query query = (Query) st.createQuery("From VentaCab v Where v. fecha>=? and v. fecha<=?");
-        //A diferencia de SQL, las condiciones se pasan como parámetros.
-        query.setParameter(0, retornarCalendar(inicioG.getText()));
-        query.setParameter(1, retornarCalendar(finG.getText()));
-        //Obtenemos la lista de "VentaCab"
-        List<VentaCab> lista = query.list();
-        int id=0;
-        //Navegamos la lista utilizando Iterator.
-        for (Iterator<VentaCab> it = lista.iterator(); it.hasNext();) {
-            VentaCab ventaCab = it.next();
-            String funcionario = ventaCab.getFuncionario().getNombres();
-            String cliente = ventaCab.getCliente().getDes();
-            String fecha = retornarString(ventaCab.getFecha());
-            List<VentaDet> ventaDets = ventaCab.getVentaDets();
-            //Navegamos por la lista de detalles utilizando también iterator.
-            for (Iterator<VentaDet> it1 = ventaDets.iterator(); it1.hasNext();) {
-                id++;
-                VentaDet ventaDet = it1.next();
-                //Llenamos nuestro lista creada más arriba con los elementos necesarios.
-                ventaList.add(new VentaR(id, funcionario, cliente, fecha, ventaDet.getArticulo().getDes(), ventaDet.getCant(), ventaDet.getImporte()));
-            }
-        }            
-        //Utilizamos el método siguiente para cargar el reporte "*.jasper"
-        //El "JRLoader.loadObject" es el cargador.
-        JasperReport report  = (JasperReport)JRLoader.loadObject(ClassLoader.getSystemResource("com/informes/ReportVenta.jasper")); 
-        //El método siguiente nos permite pasarle los datos al reporte utilizando JRBeanCollectionDataSource y como argumento la lista que creamos más arriba.
-        JasperPrint fillReport = JasperFillManager.fillReport(report, null,new JRBeanCollectionDataSource(ventaList));
-        //El JasperViewer para visualizar, le pasamos como argumento nuestro "fillReport" de arriba.
-        JasperViewer jviewer = new JasperViewer(fillReport,false);
-        //Le damos un título al reporte.
-        jviewer.setTitle("Ventas Generales.");
-        //La hacemos visible.
-        jviewer.setVisible(true);
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Error cargando reporte." + e);
-    }
+
 }
-public void informeFuncionario(){
-    //Este método es similar al de más arriba, por tanto se saltan algunos comentarios.
-    //try - para controlar las excepciones.
-    try {               
-        //Iniciamos una transacción
-        st.beginTransaction();
-        //Utilizamos un Lista para almacenar los datos.
-        List ventaList = new ArrayList();        
-        Query query = (Query) st.createQuery("From VentaCab v Where v. fecha>=? and v. fecha<=?");
-        query.setParameter(0, retornarCalendar(inicioF.getText()));
-        query.setParameter(1, retornarCalendar(finF.getText()));
-        List<VentaCab> lista = query.list();
-        int id=0;
-        for (Iterator<VentaCab> it = lista.iterator(); it.hasNext();) {
-            VentaCab ventaCab = it.next();
-            String funcionario = ventaCab.getFuncionario().getNombres();
-            String cliente = ventaCab.getCliente().getDes();
-            String fecha = retornarString(ventaCab.getFecha());
-            List<VentaDet> ventaDets = ventaCab.getVentaDets();            
-            for (Iterator<VentaDet> it1 = ventaDets.iterator(); it1.hasNext();) {
-                id++;
-                VentaDet ventaDet = it1.next();
-                //Una condición para filtrar la lista, obteniendo solo la de un funcionario en específico.
-                if( funcionario.equals(listaF.getSelectedItem().toString())){
-                  ventaList.add(new VentaR(id, funcionario, cliente, fecha, ventaDet.getArticulo().getDes(), ventaDet.getCant(), ventaDet.getImporte()));  
-                }                
-            }
-        }           
-        //Utilizamos el método siguiente para cargar el reporte "*.jasper"
-        //El "JRLoader.loadObject" es el cargador.
-        JasperReport report  = (JasperReport)JRLoader.loadObject(ClassLoader.getSystemResource("com/informes/ReportVentaDos.jasper")); 
-        //El método siguiente nos permite pasarle los datos al reporte utilizando JRBeanCollectionDataSource y como argumento la lista que creamos más arriba.
-        JasperPrint fillReport = JasperFillManager.fillReport(report, null,new JRBeanCollectionDataSource(ventaList));
-        //El JasperViewer para visualizar, le pasamos como argumento nuestro "fillReport" de arriba.
-        JasperViewer jviewer = new JasperViewer(fillReport,false);
-        //Le damos un título al reporte.
-        jviewer.setTitle("Lista de Ventas por Funcionarios.");
-        //La hacemos visible.
-        jviewer.setVisible(true);
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Error cargando reporte.");
-    }
-}
-}
+//public void informeFuncionario(){
+//    //Este método es similar al de más arriba, por tanto se saltan algunos comentarios.
+//    //try - para controlar las excepciones.
+//    try {               
+//        //Iniciamos una transacción
+//        st.beginTransaction();
+//        //Utilizamos un Lista para almacenar los datos.
+//        List ventaList = new ArrayList();        
+//        Query query = (Query) st.createQuery("From VentaCab v Where v. fecha>=? and v. fecha<=?");
+//        query.setParameter(0, retornarCalendar(inicioF.getText()));
+//        query.setParameter(1, retornarCalendar(finF.getText()));
+//        List<VentaCab> lista = query.list();
+//        int id=0;
+//        for (Iterator<VentaCab> it = lista.iterator(); it.hasNext();) {
+//            VentaCab ventaCab = it.next();
+//            String funcionario = ventaCab.getFuncionario().getNombres();
+//            String cliente = ventaCab.getCliente().getDes();
+//            String fecha = retornarString(ventaCab.getFecha());
+//            List<VentaDet> ventaDets = ventaCab.getVentaDets();            
+//            for (Iterator<VentaDet> it1 = ventaDets.iterator(); it1.hasNext();) {
+//                id++;
+//                VentaDet ventaDet = it1.next();
+//                //Una condición para filtrar la lista, obteniendo solo la de un funcionario en específico.
+//                if( funcionario.equals(listaF.getSelectedItem().toString())){
+//                  ventaList.add(new VentaR(id, funcionario, cliente, fecha, ventaDet.getArticulo().getDes(), ventaDet.getCant(), ventaDet.getImporte()));  
+//                }                
+//            }
+//        }           
+//        //Utilizamos el método siguiente para cargar el reporte "*.jasper"
+//        //El "JRLoader.loadObject" es el cargador.
+//        JasperReport report  = (JasperReport)JRLoader.loadObject(ClassLoader.getSystemResource("com/informes/ReportVentaDos.jasper")); 
+//        //El método siguiente nos permite pasarle los datos al reporte utilizando JRBeanCollectionDataSource y como argumento la lista que creamos más arriba.
+//        JasperPrint fillReport = JasperFillManager.fillReport(report, null,new JRBeanCollectionDataSource(ventaList));
+//        //El JasperViewer para visualizar, le pasamos como argumento nuestro "fillReport" de arriba.
+//        JasperViewer jviewer = new JasperViewer(fillReport,false);
+//        //Le damos un título al reporte.
+//        jviewer.setTitle("Lista de Ventas por Funcionarios.");
+//        //La hacemos visible.
+//        jviewer.setVisible(true);
+//    } catch (Exception e) {
+//        JOptionPane.showMessageDialog(null, "Error cargando reporte.");
+//    }
+//}
+//}

@@ -259,9 +259,6 @@ public class pPrincipal extends javax.swing.JPanel {
     public void arranque() {
         Tablemodel();
         cargarTabla();
-        
-        
-        
     }
 
     public void Tablemodel() {
@@ -273,7 +270,7 @@ public class pPrincipal extends javax.swing.JPanel {
     }
 
     public void cargarTabla() {
-        //System.out.println(""+jDateChooser1.getDate().toString());
+        
        Tablemodel();
         SimpleDateFormat formato = new SimpleDateFormat("YYMMdd");
         String fecha = formato.format(jDateChooser1.getDate());
@@ -283,7 +280,6 @@ public class pPrincipal extends javax.swing.JPanel {
         double contador=0;
         for (VentaDet ventaList : lista) {
             String date = "" + formato.format(ventaList.getVentaCab().getFecha().getTime());
-            // System.out.println(""+formato.format(ventaList.getVentaCab().getFecha().getTime()));
             if (date.equals(fecha)) {
                 model.addRow(new Object[]{
                     ventaList.getVentaCab().getNum(), ventaList.getVentaCab().getCliente().getDes() + " " + ventaList.getVentaCab().getCliente().getRuc(),"Q. " + ventaList.getVentaCab().getTotal()});

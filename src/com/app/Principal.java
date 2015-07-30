@@ -12,6 +12,7 @@ package com.app;
 
 import com.entidades.Articulo;
 import com.entidades.VentaDet;
+import com.reportes.IniciarReportes;
 import com.toedter.calendar.JTextFieldDateEditor;
 import java.awt.Color;
 import java.awt.Component;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -485,9 +487,21 @@ public class Principal extends javax.swing.JFrame{
         
     }//GEN-LAST:event_jLabel21MouseClicked
 
+    public Calendar retornarCalendar(String fecha){
+        //Se le pasa como argumento un String-Fecha y la combierte en objeto calendar.
+        SimpleDateFormat sdf = new SimpleDateFormat("YYMMDD");
+        Calendar cal = Calendar.getInstance();    
+        try {
+            cal.setTime(sdf.parse(fecha));
+        } catch (ParseException ex) {
+          JOptionPane.showMessageDialog(null, "Error; compruebe formato de fecha: " + ex);  
+        }
+        return cal;
+    }
     private void jLabel22MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel22MouseClicked
         // TODO add your handling code here:
-        llamarpanel();
+        //llamarpanel();
+       
         
         
         
