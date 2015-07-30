@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteCompras" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2f620681-282a-4b0a-9e47-1046cf537ea6">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fecha1" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fecha2" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select vc.num, vc.fecha, count(vd.articulo_id) as 'Cant. Articulos',vc.total from VentaCab vc inner join VentaDet vd on vc.num = vd.VentaCab_num group by vc.num;]]>
+	</queryString>
+	<field name="num" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Cant. Articulos" class="java.lang.Integer"/>
+	<field name="total" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="SumaTotal" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<variable name="CantVent" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Cant. Articulos}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="221" height="79" uuid="ccac8f5e-7d9c-4452-a811-54e26a995e2a"/>
+				<imageExpression><![CDATA["/Users/Geek/Google Drive/ProyectosNetbeans/ProyectoFarmaciaHibernate/src/logotitulo.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="418" y="59" width="80" height="20" uuid="8f94996d-e044-4bd6-913a-ae743017ef9b"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="498" y="59" width="40" height="20" uuid="14952e1b-5316-404d-8318-fc8f2bba6c10"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="38" splitType="Stretch">
+			<staticText>
+				<reportElement x="136" y="0" width="282" height="35" uuid="9f577536-fe4d-4a05-beb5-180e65e445cf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Comfortaa" size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de Ventas]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="26" width="555" height="35" backcolor="#006699" uuid="5b0b303f-21ed-48c1-832f-3d96dfdeb018"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="375" y="26" width="100" height="35" forecolor="#FFFFFF" uuid="3684a5ce-54f2-46ae-a323-d8d8922d55c6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Comfortaa" size="14"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="289" y="26" width="86" height="35" forecolor="#FFFFFF" uuid="bbc382b6-b66c-4aa1-84d8-48361a8fefde"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Comfortaa" size="14"/>
+				</textElement>
+				<text><![CDATA[Cant. Art. Vendidos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="26" width="100" height="35" forecolor="#FFFFFF" uuid="e84da480-7694-4a1c-ad26-03a4e3165e3f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Comfortaa" size="14"/>
+				</textElement>
+				<text><![CDATA[No. Venta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="26" width="89" height="35" forecolor="#FFFFFF" uuid="8358a552-2d78-41c3-9e72-6c20cdf04591"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Comfortaa" size="14"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="136" y="0" width="74" height="26" forecolor="#006699" uuid="c7b980f8-1b82-45ff-ab40-bf5ccced45f5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Comfortaa" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha De :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="221" y="0" width="81" height="26" uuid="c11222a2-4588-4d45-8f2b-9a2462886fb5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Century Gothic" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fecha1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="309" y="0" width="33" height="26" forecolor="#006699" uuid="6fe78e08-1b59-4ea0-a5e3-f3a2da2b26e5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Comfortaa" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[a]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="344" y="0" width="100" height="26" uuid="02d89a43-c35b-4082-8169-849ada6639a7"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Century Gothic" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fecha2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="37" splitType="Stretch">
+			<line>
+				<reportElement x="14" y="36" width="530" height="1" uuid="9d8ea88a-e0f0-4fc6-821b-131d34c0084e"/>
+			</line>
+			<textField>
+				<reportElement x="100" y="0" width="100" height="36" uuid="ef327de2-eb4a-43b0-b07b-36cab05187ce"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Century Gothic" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{num}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="0" width="89" height="36" uuid="cdbc39a2-8349-4544-8482-92c42b4ce115"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Century Gothic" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="289" y="0" width="86" height="36" uuid="e2b8b999-6849-4c1a-8af1-cd04384f049e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Century Gothic" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Cant. Articulos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="375" y="0" width="100" height="36" uuid="ae094c31-69ca-4a09-8c8f-393f623ee948"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Century Gothic" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="23" splitType="Stretch">
+			<break type="Column">
+				<reportElement x="0" y="6" width="100" height="1" uuid="059367ed-1924-4052-a617-dd89f9c042f2"/>
+			</break>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="9" splitType="Stretch">
+			<line>
+				<reportElement x="14" y="8" width="530" height="1" forecolor="#003399" uuid="2c0c950a-747d-402c-a53d-0ba0f6c4816b"/>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="59" splitType="Stretch">
+			<staticText>
+				<reportElement x="342" y="0" width="90" height="42" forecolor="#006699" uuid="8eff9842-5b4b-4fa0-9427-e6c6fe5f667d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Comfortaa" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL: Q. ]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="432" y="0" width="112" height="42" forecolor="#006699" uuid="4c8eb473-4adc-475c-8125-98808e02ce59"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SumaTotal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="24" y="11" width="122" height="41" forecolor="#006699" uuid="6d9d8fbf-9465-4d2c-9257-1d5e031b05a9"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Comfortaa" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad Productos Vendidos]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="146" y="11" width="75" height="41" uuid="43f55469-61ad-4f5f-a4d5-7572e02fe342"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Century Gothic" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{CantVent}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

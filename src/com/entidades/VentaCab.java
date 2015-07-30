@@ -111,6 +111,10 @@ public class VentaCab implements Serializable {
     public void setVentaDets(List<VentaDet> ventaDets) {
         this.ventaDets = ventaDets;
     }
+    @Override
+    public String toString(){
+        return String.valueOf(num);
+    }
     
     
 }

@@ -58,7 +58,6 @@ public class ReporteCompra extends javax.swing.JDialog {
         hibernateSession();
         arranque();        
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
     }
     private Session st;
     @SuppressWarnings("unchecked")
@@ -421,15 +420,14 @@ public class ReporteCompra extends javax.swing.JDialog {
         hibernateSession();
         combomodel=(DefaultComboBoxModel) listaA.getModel();
         combomodel.removeAllElements();
-        combomodel.addElement("Selecione un proveedor");
+        combomodel.addElement("Selecione un Producto");
         List<Articulo> lista = (List<Articulo>)st.createQuery("From Articulo").list();
         for(Articulo tipoList : lista){
             combomodel.addElement(tipoList);            
         }
         System.out.println(""+combomodel.getSize());
         listaA.setModel(combomodel);
-        
-} 
+    } 
    private void hibernateSession(){
     //Método para abrir una sesión hibernate.
     st = HibernateUtil.getSessionFactory().openSession();
