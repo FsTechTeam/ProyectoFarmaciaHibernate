@@ -28,6 +28,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
@@ -285,7 +286,30 @@ public class ReporteCompra extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            
+            SimpleDateFormat formato = new SimpleDateFormat("yyMMdd");
+            String fecha = formato.format(jFecha1.getDate());
+            String fecha2 = formato.format(jFecha2.getDate());
+            Date f1 = formato.parse(fecha);
+            Date f2= formato.parse(fecha2);
+             if (this.listaA.getSelectedItem().equals(null)) {
+                JOptionPane.showMessageDialog(null, "Seleccione un Producto");
+             }else{
+                    if (f1.after(f2)==true) {
+                        JOptionPane.showMessageDialog(null, "Seleccione una fecha valida");
+                        jFecha1.requestFocus();
+                    }else{
+                            int idProd = ((Articulo)listaA.getSelectedItem()).getId();
+                            System.out.println(idProd);
+                            llamarReporteCompraProducto(idProd, f1,f2);
+                        }
+                    
+                }
+            } catch (ParseException ex) {
+                JOptionPane.showMessageDialog(null, "Hubo un problema, revise sus datos.");
+            }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnGuardar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardar1ActionPerformed
@@ -359,7 +383,22 @@ public class ReporteCompra extends javax.swing.JDialog {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JComboBox listaA;
     // End of variables declaration//GEN-END:variables
-private void hibernateSession(){
+
+    DefaultComboBoxModel combomodel;
+     public void cargarCombo(){
+        hibernateSession();
+        combomodel=(DefaultComboBoxModel) listaA.getModel();
+        combomodel.removeAllElements();
+        combomodel.addElement("Selecione un proveedor");
+        List<Articulo> lista = (List<Articulo>)st.createQuery("From Articulo").list();
+        for(Articulo tipoList : lista){
+            combomodel.addElement(tipoList);            
+        }
+        System.out.println(""+combomodel.getSize());
+        listaA.setModel(combomodel);
+        
+} 
+   private void hibernateSession(){
     //Método para abrir una sesión hibernate.
     st = HibernateUtil.getSessionFactory().openSession();
 }
@@ -368,29 +407,15 @@ private void arranque(){
     Calendar cal = Calendar.getInstance();
     String fecha = retornarString(cal);
     //Creamos una lista de proveedores para llenar nuestro lista desplegable o comboBox.
-    List<Articulo> listA = (List<Articulo>)st.createQuery("From Articulo").list();
-    //Otra forma de navegar por una lista a diferencia de Iterator.
-    for (int i = 0; i < listA.size(); i++) {
-        Articulo p = listA.get(i);
-        listaA.addItem(p.getDes());
-    }
+    cargarCombo();
     AutoCompleteDecorator.decorate(this.listaA);
     addEscapeKey();
-    
 }
-public void llamarReporteCompra() throws ParseException{
+public void llamarReporteCompraProducto(int id, Date fecha1, Date fecha2) throws ParseException{
        IniciarReportes ir = new IniciarReportes();
-       SimpleDateFormat formato = new SimpleDateFormat("yyMMdd");
-       String fecha = formato.format(jFecha1.getDate());
-        String fecha2 = formato.format(jFecha2.getDate());
-       Date f1 = formato.parse(fecha);
-       Date f2= formato.parse(fecha2);
-       if (rootPaneCheckingEnabled) {
-            int idProd = ((Articulo)listaA.getSelectedItem()).getId();
-        }
-       
-       ir.ReporteCompras(1,f1,f2);
-    }
+       ir.ReporteCompras(id,fecha1,fecha2);
+}
+
 
 private void addEscapeKey(){
         KeyStroke escape = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);

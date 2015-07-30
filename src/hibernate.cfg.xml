@@ -8,7 +8,6 @@
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
-    <mapping class="com.entidades.Articulo"/>
     <mapping class="com.entidades.Cliente"/>
     <mapping class="com.entidades.CompraCab"/>
     <mapping class="com.entidades.CompraDet"/>
@@ -18,5 +17,6 @@
     <mapping class="com.entidades.VentaCab"/>
     <mapping class="com.entidades.VentaDet"/>
     <mapping class="com.entidades.Lote"/>
+    <mapping class="com.entidades.Articulo"/>
   </session-factory>
 </hibernate-configuration>

@@ -34,7 +34,7 @@ public class IniciarReportes {
             CONEXION = DriverManager.getConnection(RUTA,USER,PASSWORD);
             if(idProd==0)
             {
-                String archivo="com/reportes/ComprasAll.jasper";
+                String archivo="src//com//reportes//ComprasAll.jasper";
                 JasperReport reporte=null;
                 reporte=(JasperReport) JRLoader.loadObjectFromFile(archivo);
                 
@@ -46,7 +46,7 @@ public class IniciarReportes {
                 
             }
             else{
-                String archivo="com/reportes/ComprasProducto.jasper";
+                String archivo="src//com//reportes//ComprasProducto.jasper";
                 JasperReport reporte=null;
                 reporte=(JasperReport) JRLoader.loadObjectFromFile(archivo);
                 Map param=new HashMap();
