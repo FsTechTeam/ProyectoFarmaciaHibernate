@@ -39,6 +39,8 @@ public class IniciarReportes {
                 reporte=(JasperReport) JRLoader.loadObjectFromFile(archivo);
                 
                 Map param=new HashMap();
+                param.put("fecha1", fecha1);
+                param.put("fecha2", fecha2);
                 JasperPrint jasperprint= JasperFillManager.fillReport(reporte,param,CONEXION);
                 JasperViewer visor=new JasperViewer(jasperprint,false);
                 visor.setTitle("Reporte Compras");

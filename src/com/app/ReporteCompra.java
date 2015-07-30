@@ -17,6 +17,7 @@ import com.entidades.Proveedor;
 import com.reportes.IniciarReportes;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -88,6 +89,8 @@ public class ReporteCompra extends javax.swing.JDialog {
         setTitle("Formulario de Reportes");
         setBackground(new java.awt.Color(255, 255, 255));
         setModalityType(java.awt.Dialog.ModalityType.DOCUMENT_MODAL);
+        setUndecorated(true);
+        setResizable(false);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -314,6 +317,24 @@ public class ReporteCompra extends javax.swing.JDialog {
 
     private void btnGuardar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardar1ActionPerformed
         // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            
+            SimpleDateFormat formato = new SimpleDateFormat("yyMMdd");
+            String fecha3 = formato.format(jFecha3.getDate());
+            String fecha4 = formato.format(jFecha4.getDate());
+            Date f1 = formato.parse(fecha3);
+            Date f2= formato.parse(fecha4);
+            if (f1.after(f2)==true) {
+                JOptionPane.showMessageDialog(null, "Seleccione una fecha valida");
+                jFecha1.requestFocus();
+            }else{
+                llamarReporteCompraProducto(0, f1,f2);
+            }
+            } catch (ParseException ex) {
+                JOptionPane.showMessageDialog(null, "Hubo un problema, revise sus datos.");
+            }
+        
     }//GEN-LAST:event_btnGuardar1ActionPerformed
 
     /**
@@ -384,6 +405,17 @@ public class ReporteCompra extends javax.swing.JDialog {
     private javax.swing.JComboBox listaA;
     // End of variables declaration//GEN-END:variables
 
+    public void retornarFechaHoy(){
+        Timestamp stamp = new Timestamp(System.currentTimeMillis());
+        Date date2 = new Date(stamp.getTime());
+        System.out.println(date2);
+        SimpleDateFormat formato = new SimpleDateFormat("YYYY-MM-dd");
+        System.out.println("" + formato.format(date2));
+        jFecha1.setDate(date2);
+        jFecha2.setDate(date2);
+        jFecha3.setDate(date2);
+        jFecha4.setDate(date2);
+    }
     DefaultComboBoxModel combomodel;
      public void cargarCombo(){
         hibernateSession();
@@ -410,6 +442,7 @@ private void arranque(){
     cargarCombo();
     AutoCompleteDecorator.decorate(this.listaA);
     addEscapeKey();
+    retornarFechaHoy();
 }
 public void llamarReporteCompraProducto(int id, Date fecha1, Date fecha2) throws ParseException{
        IniciarReportes ir = new IniciarReportes();

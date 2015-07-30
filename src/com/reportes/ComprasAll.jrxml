@@ -6,8 +6,14 @@
 	<parameter name="id" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="fecha1" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fecha2" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[select A.des as 'Articulo', cd.cantidad, cc.fecha, P.des as 'Proveedor', cd.importe from compracab cc inner join compradet cd  on cc.id=cd.cabecera_id inner join Articulo A on cd.articulo_id = A.id inner join Proveedor P on cc.proveedor_id=P.id;]]>
+		<![CDATA[select A.des as 'Articulo', cd.cantidad, cc.fecha, P.des as 'Proveedor', cd.importe from compracab cc inner join compradet cd  on cc.id=cd.cabecera_id inner join Articulo A on cd.articulo_id = A.id inner join Proveedor P on cc.proveedor_id=P.id where cc.fecha between $P{fecha1} and $P{fecha2};]]>
 	</queryString>
 	<field name="Articulo" class="java.lang.String"/>
 	<field name="cantidad" class="java.lang.Integer">
@@ -44,7 +50,7 @@
 		</band>
 	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch">
+		<band height="38" splitType="Stretch">
 			<staticText>
 				<reportElement x="136" y="0" width="282" height="35" uuid="9f577536-fe4d-4a05-beb5-180e65e445cf"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -94,6 +100,34 @@
 				</textElement>
 				<text><![CDATA[Valor]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="136" y="0" width="74" height="26" forecolor="#006699" uuid="c7b980f8-1b82-45ff-ab40-bf5ccced45f5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Comfortaa" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha De :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="221" y="0" width="81" height="26" uuid="c11222a2-4588-4d45-8f2b-9a2462886fb5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Century Gothic" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fecha1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="309" y="0" width="33" height="26" forecolor="#006699" uuid="6fe78e08-1b59-4ea0-a5e3-f3a2da2b26e5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Comfortaa" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[a]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="344" y="0" width="100" height="26" uuid="02d89a43-c35b-4082-8169-849ada6639a7"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Century Gothic" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fecha2}]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>
