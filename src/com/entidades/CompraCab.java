@@ -14,14 +14,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Geek
  */
 @Entity
+
 public class CompraCab implements Serializable {
     private List<CompraDet> compraDets = new ArrayList<CompraDet>();
     private int id;
@@ -122,6 +127,10 @@ public class CompraCab implements Serializable {
 
     public void setCompraDets(List<CompraDet> compraDets) {
         this.compraDets = compraDets;
+    }
+    @Override
+    public String toString(){
+        return this.NFactura;
     }
         
 }
