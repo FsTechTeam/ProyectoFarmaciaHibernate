@@ -616,27 +616,27 @@ public void eliminar(){
       arranque();      
    }
 }
-public void informe(){
-    //try - para controlar las excepciones.
-    try {
-        //Creamos una lista de los datos de la tabla "Proveedor" utilizando "List".
-        //Iniciamos una transacción.
-        st.beginTransaction();
-        List<Proveedor> lista = (List<Proveedor>)st.createQuery("From Proveedor").list();
-        //Utilizamos el método siguiente para cargar el reporte "ProveedorReport.jasper"
-        //El "JRLoader.loadObject" es el cargador.
-        JasperReport report  = (JasperReport)JRLoader.loadObject(ClassLoader.getSystemResource("com/informes/ProveedorReport.jasper")); 
-        //El método siguiente nos permite pasarle los datos al reporte utilizando JRBeanCollectionDataSource y como argumento la lista que creamos más arriba.
-        //La lista posee todos los campos necesarios para pasarle datos al reporte.
-        JasperPrint fillReport = JasperFillManager.fillReport(report, null,new JRBeanCollectionDataSource(lista));
-        //El JasperViewer para visualizar, le pasamos como argumento nuestro "fillReport" de arriba.
-        JasperViewer jviewer = new JasperViewer(fillReport,false);
-        //Le damos un título al reporte.
-        jviewer.setTitle("Lista de Proveedores");
-        //La hacemos visible.
-        jviewer.setVisible(true);
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Error cargando reporte.");
-    }
-}
+//public void informe(){
+//    //try - para controlar las excepciones.
+//    try {
+//        //Creamos una lista de los datos de la tabla "Proveedor" utilizando "List".
+//        //Iniciamos una transacción.
+//        st.beginTransaction();
+//        List<Proveedor> lista = (List<Proveedor>)st.createQuery("From Proveedor").list();
+//        //Utilizamos el método siguiente para cargar el reporte "ProveedorReport.jasper"
+//        //El "JRLoader.loadObject" es el cargador.
+//        JasperReport report  = (JasperReport)JRLoader.loadObject(ClassLoader.getSystemResource("com/informes/ProveedorReport.jasper")); 
+//        //El método siguiente nos permite pasarle los datos al reporte utilizando JRBeanCollectionDataSource y como argumento la lista que creamos más arriba.
+//        //La lista posee todos los campos necesarios para pasarle datos al reporte.
+//        JasperPrint fillReport = JasperFillManager.fillReport(report, null,new JRBeanCollectionDataSource(lista));
+//        //El JasperViewer para visualizar, le pasamos como argumento nuestro "fillReport" de arriba.
+//        JasperViewer jviewer = new JasperViewer(fillReport,false);
+//        //Le damos un título al reporte.
+//        jviewer.setTitle("Lista de Proveedores");
+//        //La hacemos visible.
+//        jviewer.setVisible(true);
+//    } catch (Exception e) {
+//        JOptionPane.showMessageDialog(null, "Error cargando reporte.");
+//    }
+//}
 }

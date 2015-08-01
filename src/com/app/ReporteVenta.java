@@ -55,7 +55,7 @@ public class ReporteVenta extends javax.swing.JDialog {
 
     /** Creates new form ReporteVenta */
     DefaultComboBoxModel combomodel;
-    private static int idVenta=0;
+    
     public ReporteVenta(/*java.awt.Frame parent, boolean modal*/) {
        // super(parent, modal);
         initComponents();        

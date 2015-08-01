@@ -100,6 +100,7 @@ public class dCompraRapida extends javax.swing.JDialog {
         addEscapeKey();
         AutoCompleteDecorator.decorate(this.cmbProveedor);
         cargarCombo();
+        retornarFechaHoy();
         
         
     }
@@ -113,7 +114,6 @@ public class dCompraRapida extends javax.swing.JDialog {
         for(Proveedor tipoList : lista){
             combomodel.addElement(tipoList);            
         }
-        System.out.println(""+combomodel.getSize());
         cmbProveedor.setModel(combomodel);
         
 }
@@ -193,12 +193,11 @@ public class dCompraRapida extends javax.swing.JDialog {
                                 String Ser = txtSerie.getText();
                                 Funcionario funcionario = (Funcionario)st.load(Funcionario.class, idFun);
                                 Proveedor proveedor = (Proveedor)st.load(Proveedor.class, idPrv);
-                                SimpleDateFormat formato = new SimpleDateFormat("YYMMdd");
+                                SimpleDateFormat formato = new SimpleDateFormat("yyMMdd");
                                 String fecha1 = formato.format(fecha.getDate());
                                 Calendar fechaCompra = retornarCalendar(fecha1);
                                 Calendar cal = Calendar.getInstance();
                                 String horaCompra = retornarStringHora(cal);
-                                System.out.println(horaCompra);
                                 obtenetID();
                                 compra.setNFactura(NFac);
                                 compra.setSerie(Ser);
@@ -251,7 +250,7 @@ public class dCompraRapida extends javax.swing.JDialog {
 }
    public Calendar retornarCalendar(String fecha){
         //Se le pasa como argumento un String-Fecha y la combierte en objeto calendar.
-        SimpleDateFormat sdf = new SimpleDateFormat("YYMMDD");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
         Calendar cal = Calendar.getInstance();    
         try {
             cal.setTime(sdf.parse(fecha));
@@ -260,6 +259,7 @@ public class dCompraRapida extends javax.swing.JDialog {
         }
         return cal;
     }
+   
     public String retornarStringHora(Calendar fecha){
         //Médodo que se le para un objeto calendar y la combierte en formato String-hora
         String retorno=null;
@@ -272,9 +272,7 @@ public class dCompraRapida extends javax.swing.JDialog {
     public void retornarFechaHoy(){
         Timestamp stamp = new Timestamp(System.currentTimeMillis());
         Date date2 = new Date(stamp.getTime());
-        System.out.println(date2);
         SimpleDateFormat formato = new SimpleDateFormat("YYYY-MM-dd");
-        System.out.println("" + formato.format(date2));
         fecha.setDate(date2);
     }
     
@@ -304,11 +302,6 @@ public class dCompraRapida extends javax.swing.JDialog {
     }
     public void ingresarNuevoLote(){
         int nLote= Integer.parseInt((String) cmbLote.getSelectedItem());
-        
-        
-        
-        
-    
     }
 
     /**

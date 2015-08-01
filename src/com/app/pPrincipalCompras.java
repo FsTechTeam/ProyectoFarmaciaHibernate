@@ -5,6 +5,9 @@
  */
 package com.app;
 
+import com.entidades.Articulo;
+import com.entidades.CompraCab;
+import com.entidades.CompraDet;
 import com.entidades.VentaCab;
 import com.entidades.VentaDet;
 import com.toedter.calendar.JTextFieldDateEditor;
@@ -17,12 +20,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import util.HibernateUtil;
 
@@ -30,24 +35,33 @@ import util.HibernateUtil;
  *
  * @author Geek
  */
-public class pPrincipal extends javax.swing.JPanel {
+public class pPrincipalCompras extends javax.swing.JPanel {
 
     /**
      * Creates new form pPrincipal
      */
-    public pPrincipal() {
+    public pPrincipalCompras() {
         initComponents();
         Timestamp stamp = new Timestamp(System.currentTimeMillis());
         Date date2 = new Date(stamp.getTime());
-        SimpleDateFormat formato = new SimpleDateFormat("YYYY-MM-dd");
-        setCellRender(jTable1);
+        System.out.println(date2);
+        SimpleDateFormat formato = new SimpleDateFormat("YYMMdd");
+        System.out.println("" + formato.format(date2));
         jDateChooser1.setDate(date2);
         listenerDateChooser();
         //jDateChooser1.setDateFormatString("dd/mm/yyyy");
-        jTable1.setEnabled(true);
+        setCellRender(jTable1);
         hibernateSession();
         arranque();
         centrar();
+       
+    }
+    public void setCellRender(JTable table) {
+        Enumeration<TableColumn> en = table.getColumnModel().getColumns();
+        while (en.hasMoreElements()) {
+            TableColumn tc = en.nextElement();
+            tc.setCellRenderer(new CellRenderer());
+        }
     }
     private DefaultTableModel model;
     private Session st;
@@ -64,8 +78,6 @@ public class pPrincipal extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPopupMenu1 = new javax.swing.JPopupMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jSeparator2 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -76,25 +88,18 @@ public class pPrincipal extends javax.swing.JPanel {
         buttonTransluceIcon1 = new org.edisoncor.gui.button.ButtonTransluceIcon();
         buttonTransluceIcon2 = new org.edisoncor.gui.button.ButtonTransluceIcon();
         jLabel7 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-
-        jMenuItem1.setText("Pagada");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(jMenuItem1);
+        jLabel19 = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setMaximumSize(new java.awt.Dimension(1002, 734));
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
+        jTable1 = new javax.swing.JTable(){ public boolean isCellEditable(int rowIndex, int colIndex) {
+            return false; //Disallow the editing of any cell
+        }};
+        jTable1.setAutoCreateRowSorter(true);
         jTable1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -104,22 +109,13 @@ public class pPrincipal extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
-                "NoOrden", "Hora Venta", "Total", "Estado"
+                "N. Compra", "N. Factura", "Proveedor", "Total"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable1.setComponentPopupMenu(jPopupMenu1);
+        ));
         jScrollPane1.setViewportView(jTable1);
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel1.setText("Ventas Totales:");
+        jLabel1.setText("Compras Totales:");
 
         salidat.setEditable(false);
         salidat.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
@@ -130,11 +126,6 @@ public class pPrincipal extends javax.swing.JPanel {
         buttonTransluceIcon1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 buttonTransluceIcon1MouseClicked(evt);
-            }
-        });
-        buttonTransluceIcon1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonTransluceIcon1ActionPerformed(evt);
             }
         });
 
@@ -153,21 +144,17 @@ public class pPrincipal extends javax.swing.JPanel {
         });
 
         jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel7.setText("Ordenes del dia:");
+        jLabel7.setText("Compras realizadas en fecha: ");
 
-        jLabel11.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel11.setText("Pagado:");
-
-        jLabel12.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel12.setText("Pendiente:");
-
-        jTextField1.setBackground(new java.awt.Color(224, 50, 37));
-        jTextField1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jTextField1.setEnabled(false);
-
-        jTextField2.setBackground(new java.awt.Color(120, 190, 217));
-        jTextField2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jTextField2.setEnabled(false);
+        jLabel19.setFont(new java.awt.Font("Comfortaa", 1, 18)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(0, 102, 153));
+        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/img/Shopping-basket-icon.png"))); // NOI18N
+        jLabel19.setText("Nueva C.");
+        jLabel19.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel19MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -179,13 +166,16 @@ public class pPrincipal extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
                         .addComponent(buttonTransluceIcon1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(buttonTransluceIcon2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12))
-                    .addComponent(jLabel7)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 672, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -193,37 +183,14 @@ public class pPrincipal extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(salidat, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel12)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jLabel19)))
                 .addGap(19, 19, 19))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(salidat, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(9, 9, 9)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(112, 112, 112)
-                        .addComponent(jLabel6)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jSeparator2)
@@ -231,12 +198,25 @@ public class pPrincipal extends javax.swing.JPanel {
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(buttonTransluceIcon2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buttonTransluceIcon1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(buttonTransluceIcon1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1)))
                 .addGap(19, 19, 19))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(salidat, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(112, 112, 112)
+                        .addComponent(jLabel6)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel19)
+                .addContainerGap(459, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -277,40 +257,22 @@ public class pPrincipal extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonTransluceIcon2ActionPerformed
 
-    private void buttonTransluceIcon1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTransluceIcon1ActionPerformed
+    private void jLabel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel19MouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_buttonTransluceIcon1ActionPerformed
-
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-        int selectedRow = this.jTable1.getSelectedRow();
-      //Se obtiene el "id" del registro que esta en la columna "0"
-        int idVenta = Integer.parseInt(String.valueOf(model.getValueAt(selectedRow, 0)));
-        pagarVenta(idVenta);
-      
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-    public void pagarVenta(int idV){
-        st.beginTransaction();
-        VentaCab venta = (VentaCab)st.load(VentaCab.class, idV);
-        venta.setPagado(true);
-        st.update(venta);
-        st.getTransaction().commit();
+        llamarCompras();
         arranque();
-        JOptionPane.showMessageDialog(null, "Venta Pagada");
+    }//GEN-LAST:event_jLabel19MouseClicked
+   
     
+    private void llamarCompras() {
+        CompraApp c = new CompraApp(/*this, true*/);
+        //c.setDefaultCloseOperation(HIDE_ON_CLOSE);
+        c.setTitle("Formulario de Compras");
+        c.setVisible(true);
     }
-    
     public void centrar() {
         JTextFieldDateEditor fecha = (JTextFieldDateEditor) jDateChooser1.getComponent(1);
         fecha.setHorizontalAlignment(JTextField.CENTER);
-    }
-    public void setCellRender(JTable table) {
-        Enumeration<TableColumn> en = table.getColumnModel().getColumns();
-        while (en.hasMoreElements()) {
-            TableColumn tc = en.nextElement();
-            tc.setCellRenderer(new CellRenderer());
-            
-        }
     }
 
     public void listenerDateChooser() {
@@ -326,13 +288,18 @@ public class pPrincipal extends javax.swing.JPanel {
     public void arranque() {
         Tablemodel();
         cargarTabla();
+        setCellRender(jTable1);
+        
+        
     }
+    
 
     public void Tablemodel() {
         this.jTable1.setRowHeight(20);
         this.jTable1.getColumnModel().getColumn(0).setPreferredWidth(15);
-        this.jTable1.getColumnModel().getColumn(1).setPreferredWidth(100);
-        this.jTable1.getColumnModel().getColumn(2).setPreferredWidth(80);
+        this.jTable1.getColumnModel().getColumn(1).setPreferredWidth(150);
+        this.jTable1.getColumnModel().getColumn(2).setPreferredWidth(100);
+        this.jTable1.getColumnModel().getColumn(3).setPreferredWidth(80);
         model = (DefaultTableModel)this.jTable1.getModel();
         model.setNumRows(0);
     }
@@ -342,26 +309,20 @@ public class pPrincipal extends javax.swing.JPanel {
        Tablemodel();
         SimpleDateFormat formato = new SimpleDateFormat("YYMMdd");
         String fecha = formato.format(jDateChooser1.getDate());
-        List<VentaDet> lista = (List<VentaDet>) st.createQuery("From VentaDet group by VentaCab_num").list();
+        System.out.println("" + fecha);
+        List<CompraDet> lista = (List<CompraDet>) st.createQuery("From CompraDet group by cabecera_id").list();
+        System.out.println("" + lista.size());
         double contador=0;
-        for (VentaDet ventaList : lista) {
-            String date = "" + formato.format(ventaList.getVentaCab().getFecha().getTime());
+        for (CompraDet ventaList : lista) {
+            String date = "" + formato.format(ventaList.getCabecera().getFecha().getTime());
             if (date.equals(fecha)) {
                 model.addRow(new Object[]{
-                    ventaList.getVentaCab().getNum(), ventaList.getVentaCab().getHora(),"Q. " + ventaList.getVentaCab().getTotal(), ventaList.getVentaCab().isPagado()});
-                if(ventaList.getVentaCab().isPagado()==true){
-                    contador=contador+ ventaList.getVentaCab().getTotal();
-                }
+                    ventaList.getCabecera().getNum(), ventaList.getCabecera().getNFactura(),ventaList.getCabecera().getProveedor().getDes(),"Q. " + ventaList.getCabecera().getTotal()});
+                contador=contador+ ventaList.getCabecera().getTotal();
                 contador = Math.rint(contador*100)/100;
-                
+               
             }
-            
         }
-//        int numFilas=model.getRowCount();
-//        for (int i = 0; i <numFilas; i++) {
-//            model.setValueAt(i+1, i, 0);
-//        }
-//        this.jTable1.getColumnModel().getColumn(0).setCellRenderer(jTable1.getTableHeader().getDefaultRenderer());
             salidat.setText("Q. "+contador);
     }
 
@@ -370,18 +331,13 @@ public class pPrincipal extends javax.swing.JPanel {
     private org.edisoncor.gui.button.ButtonTransluceIcon buttonTransluceIcon2;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField salidat;
     // End of variables declaration//GEN-END:variables
 }

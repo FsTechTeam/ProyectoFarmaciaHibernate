@@ -106,11 +106,10 @@ public class SeleccionarReporte extends javax.swing.JDialog {
         panelCurves2Layout.setHorizontalGroup(
             panelCurves2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCurves2Layout.createSequentialGroup()
-                .addGap(126, 126, 126)
-                .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(panelCurves2Layout.createSequentialGroup()
                 .addGroup(panelCurves2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCurves2Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnPresentacion, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelCurves2Layout.createSequentialGroup()
                         .addGroup(panelCurves2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelCurves2Layout.createSequentialGroup()
@@ -122,11 +121,11 @@ public class SeleccionarReporte extends javax.swing.JDialog {
                                 .addGap(77, 77, 77)
                                 .addComponent(jLabel18)
                                 .addGap(68, 68, 68)
-                                .addComponent(jLabel19)))
-                        .addGap(0, 40, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCurves2Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnPresentacion, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel19))
+                            .addGroup(panelCurves2Layout.createSequentialGroup()
+                                .addGap(126, 126, 126)
+                                .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 40, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelCurves2Layout.setVerticalGroup(
@@ -198,7 +197,8 @@ public class SeleccionarReporte extends javax.swing.JDialog {
     }
 
     private void llamarReporteCompra() {
-        ReporteCompra rc = new ReporteCompra(/*new javax.swing.JFrame(), true*/);
+        Principal pr = new Principal();
+        ReporteCompra rc = new ReporteCompra(pr, true);
        // rc.setDefaultCloseOperation(HIDE_ON_CLOSE);
         rc.setTitle("Reportes de Compras");
         rc.setVisible(true);

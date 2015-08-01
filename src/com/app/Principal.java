@@ -38,6 +38,9 @@ import org.hibernate.Session;
 
 import util.HibernateUtil;
 import javax.swing.JTabbedPane;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+import javax.swing.border.SoftBevelBorder;
 
 /**
  *
@@ -57,23 +60,11 @@ public class Principal extends javax.swing.JFrame{
         setExtendedState(MAXIMIZED_BOTH);
         //Especificar un icono para la aplicación: "png" "jpg" 
         setIconImage(new ImageIcon(ClassLoader.getSystemResource("com/img/logos.png")).getImage());
-       // jTable1.setRowHeight(30);
-
         Timestamp stamp = new Timestamp(System.currentTimeMillis());
         Date date2 = new Date(stamp.getTime());
-        System.out.println(date2);
         SimpleDateFormat formato = new SimpleDateFormat("YYYY-MM-dd");
-        System.out.println("" + formato.format(date2));
-
-        //jDateChooser1.setDate(date2);
-        //listenerDateChooser();
-        //jDateChooser1.setDateFormatString("dd/mm/yyyy");
-        //jTable1.setEnabled(false);
         hibernateSession();
-        //arranque();
-        
-
-        //centrar();
+        llamarpanel();
     }
 
     /**
@@ -275,7 +266,7 @@ public class Principal extends javax.swing.JFrame{
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Referenciales");
+        jMenu2.setText("Ingresos");
 
         jMenuItem2.setText("Tipo de Artículos");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -319,7 +310,7 @@ public class Principal extends javax.swing.JFrame{
 
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setText("Transacciones");
+        jMenu3.setText("Operaciones");
 
         jMenuItem7.setText("Ventas");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
@@ -387,23 +378,6 @@ public class Principal extends javax.swing.JFrame{
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-//    public void centrar() {
-//        JTextFieldDateEditor fecha = (JTextFieldDateEditor) jDateChooser1.getComponent(1);
-//        fecha.setHorizontalAlignment(JTextField.CENTER);
-//    }
-
-//    public void listenerDateChooser() {
-//        jDateChooser1.getDateEditor().addPropertyChangeListener(new PropertyChangeListener() {
-//            @Override
-//            public void propertyChange(PropertyChangeEvent pce) {
-//                if ("date".equals(pce.getPropertyName())) {
-//                    arranque();
-//                }
-//            }
-//        });
-//    }
-
     private DefaultTableModel model;
     private Session st;
 
@@ -449,19 +423,44 @@ public class Principal extends javax.swing.JFrame{
 
     private void jLabel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel19MouseClicked
         // TODO add your handling code here:
+        Border border = new OvalBorder();
+        jLabel19.setBorder(border);
+        jLabel22.setBorder(null);
+        jLabel3.setBorder(null);
+        jLabel4.setBorder(null);
+        jLabel8.setBorder(null);
+        jLabel21.setBorder(null);
+        jLabel5.setBorder(null);
+        llamarPanelCompras();
         
-        llamarCompras();
+        
     }//GEN-LAST:event_jLabel19MouseClicked
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         // TODO add your handling code here:
-        //llamarVentas();
-        //cargarTabla();
-        llamarVentasP();
+        Border border = new OvalBorder();
+        jLabel19.setBorder(null);
+        jLabel22.setBorder(null);
+        jLabel3.setBorder(border);
+        jLabel4.setBorder(null);
+        jLabel8.setBorder(null);
+        jLabel5.setBorder(null);
+        jLabel21.setBorder(null);
+        llamarVentas();
+        llamarpanel();
+        
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
         // TODO add your handling code here:
+        Border border = new OvalBorder();
+        jLabel19.setBorder(null);
+        jLabel22.setBorder(null);
+        jLabel3.setBorder(null);
+        jLabel4.setBorder(border);
+        jLabel8.setBorder(null);
+        jLabel5.setBorder(null);
+        jLabel21.setBorder(null);
         SeleccionarReporte sr = new SeleccionarReporte(this, true);
         sr.setTitle("Seleccionar tipo de reporte");
         sr.setVisible(true);
@@ -470,21 +469,40 @@ public class Principal extends javax.swing.JFrame{
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         // TODO add your handling code here:
+        Border border = new OvalBorder();
+        jLabel19.setBorder(null);
+        jLabel22.setBorder(null);
+        jLabel3.setBorder(null);
+        jLabel4.setBorder(null);
+        jLabel21.setBorder(null);
+        jLabel5.setBorder(border);
+        jLabel8.setBorder(null);
         llamarArticulo();
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         // TODO add your handling code here:
+        Border border = new OvalBorder();
+        jLabel19.setBorder(null);
+        jLabel22.setBorder(null);
+        jLabel3.setBorder(null);
+        jLabel4.setBorder(null);
+        jLabel5.setBorder(null);
+        jLabel21.setBorder(null);
+        jLabel8.setBorder(border);
         llamarProveedor();
     }//GEN-LAST:event_jLabel8MouseClicked
 
     private void jLabel21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel21MouseClicked
-        // TODO add your handling code here:
-//        VerPro vp = new VerPro();
-//        vp.setVisible(true);
-//        this.jTabbedPane1.removeAll();
+        Border border = new OvalBorder();
+        jLabel19.setBorder(null);
+        jLabel22.setBorder(null);
+        jLabel3.setBorder(null);
+        jLabel4.setBorder(null);
+        jLabel5.setBorder(null);
+        jLabel8.setBorder(null);
+        jLabel21.setBorder(border);
         llamarProductos();
-        
     }//GEN-LAST:event_jLabel21MouseClicked
 
     public Calendar retornarCalendar(String fecha){
@@ -500,16 +518,13 @@ public class Principal extends javax.swing.JFrame{
     }
     private void jLabel22MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel22MouseClicked
         // TODO add your handling code here:
-        //llamarpanel();
-       
-        
-        
-        
+        llamarpanel();
     }//GEN-LAST:event_jLabel22MouseClicked
 
     /**
      * @param args the command line arguments
      */
+    public static boolean abierto=false;
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -536,10 +551,15 @@ public class Principal extends javax.swing.JFrame{
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-
             @Override
+            
             public void run() {
-                new Principal().setVisible(true);
+                if(abierto==false){
+                    new Principal().setVisible(true);
+                    abierto=true;
+                }else{
+                    JOptionPane.showMessageDialog(null, "La Aplicacion esta abierta");
+                }
             }
         });
     }
@@ -590,7 +610,6 @@ public class Principal extends javax.swing.JFrame{
     private void llamarProductos(){
         this.jTabbedPane1.removeAll();
         pMedicamentos medicamentos = new pMedicamentos();
-        
         this.jTabbedPane1.add(medicamentos);
         medicamentos.setVisible(true);
         this.jTabbedPane1.setTitleAt(0, "Medicamentos");
@@ -606,6 +625,14 @@ public class Principal extends javax.swing.JFrame{
     
     //Los pasos para llamar cada formulario son iguales a la anterior.
     private void llamarpanel(){
+        Border border = new OvalBorder();
+        jLabel22.setBorder(border);
+        jLabel19.setBorder(null);
+        jLabel3.setBorder(null);
+        jLabel4.setBorder(null);
+        jLabel8.setBorder(null);
+        jLabel21.setBorder(null);
+        jLabel5.setBorder(null);
         this.jTabbedPane1.removeAll();
         pPrincipal principal = new pPrincipal();
         this.jTabbedPane1.add(principal);
@@ -620,6 +647,15 @@ public class Principal extends javax.swing.JFrame{
         //c.setDefaultCloseOperation(HIDE_ON_CLOSE);
         c.setTitle("Formulario de Compras");
         c.setVisible(true);
+    }
+    private void llamarPanelCompras(){
+        this.jTabbedPane1.removeAll();
+        pPrincipalCompras principalCom = new pPrincipalCompras();
+        this.jTabbedPane1.add(principalCom);
+        this.jTabbedPane1.setSize(jTabbedPane1.getHeight(), jTabbedPane1.getWidth());
+        this.jTabbedPane1.setMaximumSize(this.jTabbedPane1.getSize());
+        principalCom.setVisible(true);
+        this.jTabbedPane1.setTitleAt(0, "Principal Compras");
     }
 
     private void llamarTipo() {
@@ -665,7 +701,7 @@ public class Principal extends javax.swing.JFrame{
     }
 
     private void llamarReporteCompra() {
-        ReporteCompra rc = new ReporteCompra(/*this, true*/);
+        ReporteCompra rc = new ReporteCompra(this, true);
        // rc.setDefaultCloseOperation(HIDE_ON_CLOSE);
         rc.setTitle("Reportes de Compras");
         rc.setVisible(true);
