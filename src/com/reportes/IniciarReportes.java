@@ -25,16 +25,16 @@ import net.sf.jasperreports.view.JasperViewer;
  */
 public class IniciarReportes {
         public static final String DRIVER="com.mysql.jdbc.Driver";
-        public static final String RUTA="jdbc:mysql://localhost:3306/proyectobdfa";
-        public static final String USER="root";
-        public static final String PASSWORD="";
+        public static final String RUTA="jdbc:mysql://192.168.10.120:3306/proyectobdfa?zeroDateTimeBehavior=convertToNull";
+        public static final String USER="F_admin";
+        public static final String PASSWORD="12345";
 	public static Connection CONEXION;
         
-        public void ReporteCompras(int idProd, Date fecha1, Date fecha2){
+        public void ReporteCompras(int idProd, Date fecha1, Date fecha2, String NFact){
             try{
                 Class.forName(DRIVER);
                 CONEXION = DriverManager.getConnection(RUTA,USER,PASSWORD);
-                if(idProd==0)
+                if(idProd==0 && NFact==null)
                 {
                     String archivo="src//com//reportes//ComprasAll.jasper";
                     JasperReport reporte=null;
@@ -47,7 +47,7 @@ public class IniciarReportes {
                     visor.setTitle("Reporte Compras");
                     visor.setVisible(true);
                 }
-                else{
+                if(idProd>0){
                     String archivo="src//com//reportes//ComprasProducto.jasper";
                     JasperReport reporte=null;
                     reporte=(JasperReport) JRLoader.loadObjectFromFile(archivo);
@@ -60,10 +60,54 @@ public class IniciarReportes {
                     visor.setTitle("Reporte Compras Producto");
                     visor.setVisible(true);
                 }
+                if(NFact!=null){
+                    String archivo="src//com//reportes//ComprasDetalle.jasper";
+                    JasperReport reporte=null;
+                    reporte=(JasperReport) JRLoader.loadObjectFromFile(archivo);
+                    Map param=new HashMap();
+                    param.put("NFactura",NFact);
+                    JasperPrint jasperprint= JasperFillManager.fillReport(reporte,param,CONEXION);
+                    JasperViewer visor=new JasperViewer(jasperprint,false);
+                    visor.setTitle("Reporte Detalle Compras");
+                    visor.setVisible(true);
+                }
             }catch(Exception e){
                 javax.swing.JOptionPane.showMessageDialog(null, e);
             }
     }
+        public void ReporteProveedor(int idProv, Date fecha1, Date fecha2){
+            try{
+                Class.forName(DRIVER);
+                CONEXION = DriverManager.getConnection(RUTA,USER,PASSWORD);
+            if (idProv==0) {
+                String archivo="src//com//reportes//ProveedorAll.jasper";
+                JasperReport reporte=null;
+                reporte = (JasperReport)JRLoader.loadObjectFromFile(archivo);
+                Map param=new HashMap();
+                param.put("fecha1", fecha1);
+                param.put("fecha2", fecha2);
+                JasperPrint jasperprint=JasperFillManager.fillReport(reporte, param, CONEXION);
+                JasperViewer visor=new JasperViewer(jasperprint,false);
+                visor.setTitle("Reporte Proveedores");
+                visor.setVisible(true);
+            }else{
+                 String archivo="src//com//reportes//ProveedorDetalle.jasper";
+                JasperReport reporte=null;
+                reporte = (JasperReport)JRLoader.loadObjectFromFile(archivo);
+                Map param=new HashMap();
+                param.put("id", idProv);
+                param.put("fecha1", fecha1);
+                param.put("fecha2", fecha2);
+                JasperPrint jasperprint=JasperFillManager.fillReport(reporte, param, CONEXION);
+                JasperViewer visor=new JasperViewer(jasperprint,false);
+                visor.setTitle("Reporte Proveedores");
+                visor.setVisible(true);
+            }
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Hubo un error"+e);
+            }
+        
+        }
         public void ReporteVentas(int idProd, Date fecha1, Date fecha2, int idVenta) {
             try{
                 Class.forName(DRIVER);

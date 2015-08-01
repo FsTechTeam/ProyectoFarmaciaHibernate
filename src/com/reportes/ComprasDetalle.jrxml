@@ -3,31 +3,33 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="id" class="java.lang.Integer">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="fecha1" class="java.util.Date">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="fecha2" class="java.util.Date">
+	<parameter name="NFactura" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select A.des as 'Articulo', cd.cantidad, cc.fecha, P.des as 'Proveedor', cd.importe from CompraCab cc inner join compradet cd  on cc.id=cd.cabecera_id inner join Articulo A on cd.articulo_id = A.id inner join Proveedor P on cc.proveedor_id=P.id where cc.fecha between $P{fecha1} and $P{fecha2};]]>
+		<![CDATA[select cc.NFactura, cc.fecha, concat(a.des," " , t.des) as 'Articulo', cd.cantidad,p.des, cd.importe from CompraCab cc inner join CompraDet cd on cc.id = cd.cabecera_id inner join Articulo a on cd.articulo_id=a.id inner join Tipo t on a.tipo_id=t.id inner join proveedor p on cc.proveedor_id=p.id where cc.NFactura= $P{NFactura};]]>
 	</queryString>
-	<field name="Articulo" class="java.lang.String"/>
-	<field name="cantidad" class="java.lang.Integer">
+	<field name="NFactura" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="fecha" class="java.sql.Date">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="Proveedor" class="java.lang.String"/>
+	<field name="Articulo" class="java.lang.String"/>
+	<field name="cantidad" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="des" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<field name="importe" class="java.lang.Double">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<variable name="SumaTotal" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{importe}]]></variableExpression>
+	</variable>
+	<variable name="CantTot" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{cantidad}]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -56,7 +58,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Comfortaa" size="24" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Reporte de Compras]]></text>
+				<text><![CDATA[Detalle de Compra]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
@@ -66,93 +68,94 @@
 				<reportElement x="0" y="26" width="555" height="35" backcolor="#006699" uuid="5b0b303f-21ed-48c1-832f-3d96dfdeb018"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="318" y="26" width="100" height="35" forecolor="#FFFFFF" uuid="3684a5ce-54f2-46ae-a323-d8d8922d55c6"/>
+				<reportElement x="254" y="26" width="144" height="35" forecolor="#FFFFFF" uuid="3684a5ce-54f2-46ae-a323-d8d8922d55c6"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Comfortaa" size="14"/>
 				</textElement>
 				<text><![CDATA[Proveedor]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="177" y="26" width="86" height="35" forecolor="#FFFFFF" uuid="bbc382b6-b66c-4aa1-84d8-48361a8fefde"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Comfortaa" size="14"/>
-				</textElement>
-				<text><![CDATA[Fecha]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="26" width="100" height="35" forecolor="#FFFFFF" uuid="e84da480-7694-4a1c-ad26-03a4e3165e3f"/>
+				<reportElement x="0" y="26" width="177" height="35" forecolor="#FFFFFF" uuid="e84da480-7694-4a1c-ad26-03a4e3165e3f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Comfortaa" size="14"/>
 				</textElement>
 				<text><![CDATA[Articulo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="100" y="26" width="77" height="35" forecolor="#FFFFFF" uuid="8358a552-2d78-41c3-9e72-6c20cdf04591"/>
+				<reportElement x="177" y="26" width="77" height="35" forecolor="#FFFFFF" uuid="8358a552-2d78-41c3-9e72-6c20cdf04591"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Comfortaa" size="14"/>
 				</textElement>
 				<text><![CDATA[Cantidad]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="451" y="26" width="75" height="35" forecolor="#FFFFFF" uuid="aae15646-489e-4649-880a-c7f5955f6985"/>
+				<reportElement x="398" y="26" width="100" height="35" forecolor="#FFFFFF" uuid="aae15646-489e-4649-880a-c7f5955f6985"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Comfortaa" size="14"/>
 				</textElement>
 				<text><![CDATA[Valor]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="136" y="0" width="74" height="26" forecolor="#006699" uuid="c7b980f8-1b82-45ff-ab40-bf5ccced45f5"/>
+				<reportElement x="177" y="0" width="74" height="26" forecolor="#006699" uuid="c7b980f8-1b82-45ff-ab40-bf5ccced45f5"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Comfortaa" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Fecha De :]]></text>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="74" height="26" forecolor="#006699" uuid="92f93a93-d7cb-4b74-8108-098ce562d5f4"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Comfortaa" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N. Factura:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="221" y="0" width="81" height="26" uuid="c11222a2-4588-4d45-8f2b-9a2462886fb5"/>
+				<reportElement x="78" y="0" width="116" height="26" uuid="e19894a5-3213-4766-b819-6f7655d70dad"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Century Gothic" size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{fecha1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{NFactura}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="309" y="0" width="33" height="26" forecolor="#006699" uuid="6fe78e08-1b59-4ea0-a5e3-f3a2da2b26e5"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Comfortaa" size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[a]]></text>
-			</staticText>
 			<textField>
-				<reportElement x="344" y="0" width="100" height="26" uuid="02d89a43-c35b-4082-8169-849ada6639a7"/>
-				<textElement textAlignment="Justified" verticalAlignment="Middle">
+				<reportElement x="254" y="0" width="100" height="26" uuid="826612ab-9a53-4b59-9606-86de8f29a593"/>
+				<textElement verticalAlignment="Middle">
 					<font fontName="Century Gothic" size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{fecha2}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="37" splitType="Stretch">
 			<line>
-				<reportElement x="14" y="20" width="530" height="1" uuid="9d8ea88a-e0f0-4fc6-821b-131d34c0084e"/>
+				<reportElement x="14" y="36" width="530" height="1" uuid="9d8ea88a-e0f0-4fc6-821b-131d34c0084e"/>
 			</line>
 			<textField>
-				<reportElement x="14" y="0" width="86" height="20" uuid="ca08ffc9-04a4-46c7-97db-7ce9545b0b24"/>
+				<reportElement x="14" y="0" width="163" height="37" uuid="83f2e0c6-e779-454c-b24c-1b331c7fdef7"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Century Gothic" size="12" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{Articulo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="100" y="0" width="77" height="20" uuid="2abf4adb-59c8-41aa-ac93-a21fe30e1c6a"/>
+				<reportElement x="177" y="0" width="77" height="36" uuid="e7622e45-d6cb-4b92-b8e8-148936631cd2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Century Gothic" size="12" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="177" y="0" width="100" height="20" uuid="76eca05f-deaf-429f-be0d-dc1b26931d64"/>
-				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+				<reportElement x="254" y="0" width="144" height="36" uuid="13d6a7a7-d913-4170-b8d8-04abcc791851"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Century Gothic" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{des}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="318" y="0" width="100" height="20" uuid="98d0ae1d-b5a3-485b-b339-a5f8d298ecae"/>
-				<textFieldExpression><![CDATA[$F{Proveedor}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="444" y="0" width="100" height="20" uuid="3b739ecd-61d4-4d4d-9ced-85ec1ae00789"/>
+				<reportElement x="398" y="0" width="100" height="36" uuid="a0f01581-0534-4eba-851f-b817fa432301"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Century Gothic" size="12" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{importe}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -186,6 +189,20 @@
 					<font size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{SumaTotal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="32" y="1" width="122" height="41" forecolor="#006699" uuid="868a878b-7f5f-4e17-a9f8-554f75a07d35"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Comfortaa" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad total vendida]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="154" y="1" width="100" height="41" uuid="b7cdf330-39fc-48ab-a3c1-56617d426d7c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Century Gothic" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{CantTot}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>
