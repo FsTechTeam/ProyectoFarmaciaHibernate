@@ -9,7 +9,7 @@ import com.entidades.Articulo;
 import com.entidades.CompraCab;
 import com.entidades.CompraDet;
 import com.entidades.Funcionario;
-import com.entidades.Lote;
+
 import com.entidades.Proveedor;
 import com.entidades.Tipo;
 import com.toedter.calendar.JDateChooser;
@@ -290,16 +290,16 @@ public class dCompraRapida extends javax.swing.JDialog {
     
 
     
-    public boolean buscarLote(int idlote){
-        boolean find=false;
-        try{
-            Lote lote=(Lote)st.load(Lote.class, idlote);
-            find=true;
-        }catch(Exception e){
-            find =false;
-        }
-        return find;
-    }
+//    public boolean buscarLote(int idlote){
+//        boolean find=false;
+//        try{
+//            Lote lote=(Lote)st.load(Lote.class, idlote);
+//            find=true;
+//        }catch(Exception e){
+//            find =false;
+//        }
+//        return find;
+//    }
     public void ingresarNuevoLote(){
         int nLote= Integer.parseInt((String) cmbLote.getSelectedItem());
     }
@@ -732,12 +732,12 @@ public class dCompraRapida extends javax.swing.JDialog {
     
     private void cmbLoteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbLoteFocusLost
         // TODO add your handling code here:
-        int idLote= ((Lote)cmbLote.getSelectedItem()).getId();
-        if(buscarLote(idLote)){
-            JOptionPane.showMessageDialog(null, "Lote valido");
-        }else{
-            ingresarNuevoLote();
-        }
+//        int idLote= ((Lote)cmbLote.getSelectedItem()).getId();
+//        if(buscarLote(idLote)){
+//            JOptionPane.showMessageDialog(null, "Lote valido");
+//        }else{
+//            ingresarNuevoLote();
+//        }
         
     }//GEN-LAST:event_cmbLoteFocusLost
 

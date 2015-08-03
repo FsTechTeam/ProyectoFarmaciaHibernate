@@ -26,7 +26,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Geek
  */
 @Entity
-
 public class CompraCab implements Serializable {
     private List<CompraDet> compraDets = new ArrayList<CompraDet>();
     private int id;

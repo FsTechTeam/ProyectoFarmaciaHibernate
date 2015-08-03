@@ -524,7 +524,7 @@ public class Principal extends javax.swing.JFrame{
     /**
      * @param args the command line arguments
      */
-    public static boolean abierto=false;
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -551,15 +551,9 @@ public class Principal extends javax.swing.JFrame{
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            
+           @Override
             public void run() {
-                if(abierto==false){
-                    new Principal().setVisible(true);
-                    abierto=true;
-                }else{
-                    JOptionPane.showMessageDialog(null, "La Aplicacion esta abierta");
-                }
+                new Principal().setVisible(true);
             }
         });
     }

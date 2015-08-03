@@ -13,12 +13,12 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select concat(A.des, " ", t.des) as 'Producto', vc.num as 'N. Venta',vc.fecha as 'Fecha Venta', count(vd.cant) as 'Unidades Vendidas', P.des as 'Proveedor', vd.importe as 'Importe' from  VentaCab vc inner join ventadet vd on vc.num=vd.VentaCab_num inner join Articulo A on vd.articulo_id=A.id inner join compradet cd on A.id=cd.articulo_id inner join CompraCab cc on cd.cabecera_id=cc.id inner join Proveedor p on cc.proveedor_id=p.id inner join Tipo t on a.tipo_id=t.id where a.id= $P{id} and vc.fecha between $P{fecha1} and $P{fecha2}  group by vc.num;]]>
+		<![CDATA[select concat(A.des, " ", t.des) as 'Producto', vc.num as 'N. Venta',vc.fecha as 'Fecha Venta', vd.cant as 'Unidades Vendidas', P.des as 'Proveedor', vd.importe as 'Importe' from  VentaCab vc inner join ventadet vd on vc.num=vd.VentaCab_num inner join Articulo A on vd.articulo_id=A.id inner join compradet cd on A.id=cd.articulo_id inner join CompraCab cc on cd.cabecera_id=cc.id inner join Proveedor p on cc.proveedor_id=p.id inner join Tipo t on a.tipo_id=t.id where a.id= $P{id} and vc.fecha between $P{fecha1} and $P{fecha2}  group by vc.num;]]>
 	</queryString>
 	<field name="Producto" class="java.lang.String"/>
 	<field name="N. Venta" class="java.lang.Integer"/>
 	<field name="Fecha Venta" class="java.sql.Date"/>
-	<field name="Unidades Vendidas" class="java.lang.Long"/>
+	<field name="Unidades Vendidas" class="java.lang.Integer"/>
 	<field name="Proveedor" class="java.lang.String"/>
 	<field name="Importe" class="java.lang.Double">
 		<fieldDescription><![CDATA[]]></fieldDescription>

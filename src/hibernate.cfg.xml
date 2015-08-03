@@ -6,9 +6,10 @@
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="hibernate.connection.url">jdbc:mysql://192.168.10.120:3306/proyectobdfa?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">F_admin</property>
-    <property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
+    <property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.connection.password">12345</property>
+    <mapping class="com.entidades.Articulo"/>
     <mapping class="com.entidades.Cliente"/>
     <mapping class="com.entidades.CompraCab"/>
     <mapping class="com.entidades.CompraDet"/>
@@ -17,7 +18,6 @@
     <mapping class="com.entidades.Tipo"/>
     <mapping class="com.entidades.VentaCab"/>
     <mapping class="com.entidades.VentaDet"/>
-    <mapping class="com.entidades.Lote"/>
-    <mapping class="com.entidades.Articulo"/>
+    <mapping class="com.reportes.IniciarReportes"/>
   </session-factory>
 </hibernate-configuration>

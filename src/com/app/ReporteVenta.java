@@ -332,9 +332,13 @@ public class ReporteVenta extends javax.swing.JDialog {
                         JOptionPane.showMessageDialog(null, "Seleccione una fecha valida");
                         jFecha1.requestFocus();
                     }else{
-                            int idProd = ((Articulo)listaA.getSelectedItem()).getId();
-                            System.out.println(idProd);
-                            llamarReporteVenta(idProd, f1,f2,0);
+                            if(listaA.getSelectedIndex()==0){
+                                llamarReporteVenta(0, f1,f2,0,1);
+                            
+                            }if(listaA.getSelectedIndex()>0){
+                                int idProd = ((Articulo)listaA.getSelectedItem()).getId();
+                                llamarReporteVenta(idProd, f1,f2,0,0);
+                            }
                         }
                 }
             } catch (ParseException ex) {
@@ -358,10 +362,10 @@ public class ReporteVenta extends javax.swing.JDialog {
             }else{
                 if(jRadioButton1.isSelected()== true){
                     int idVenta = ((VentaCab)listaV.getSelectedItem()).getNum();
-                    llamarReporteVenta(0, f1, f2, idVenta);
+                    llamarReporteVenta(0, f1, f2, idVenta,0);
                 }else{
                     if(jRadioButton1.isSelected()==false){
-                        llamarReporteVenta(0, f1,f2,0);
+                        llamarReporteVenta(0, f1,f2,0,0);
                     }                    
                 }
             }
@@ -500,7 +504,7 @@ public class ReporteVenta extends javax.swing.JDialog {
         hibernateSession();
         combomodel=(DefaultComboBoxModel) listaA.getModel();
         combomodel.removeAllElements();
-        combomodel.addElement("Selecione un Producto");
+        combomodel.addElement("General Medicamentos");
         List<Articulo> lista = (List<Articulo>)st.createQuery("From Articulo").list();
         for(Articulo tipoList : lista){
             combomodel.addElement(tipoList);            
@@ -531,9 +535,9 @@ public class ReporteVenta extends javax.swing.JDialog {
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escape, "ESCAPE");
         getRootPane().getActionMap().put("ESCAPE", escapeAction);
     }
-    public void llamarReporteVenta(int id, Date f1, Date f2, int idVenta) {
+    public void llamarReporteVenta(int id, Date f1, Date f2, int idVenta, int marc) {
         IniciarReportes ir = new IniciarReportes();
-        ir.ReporteVentas(id, f1, f2, idVenta);
+        ir.ReporteVentas(id, f1, f2, idVenta, marc);
     
     }
    

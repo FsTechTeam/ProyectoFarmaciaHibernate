@@ -108,11 +108,11 @@ public class IniciarReportes {
             }
         
         }
-        public void ReporteVentas(int idProd, Date fecha1, Date fecha2, int idVenta) {
+        public void ReporteVentas(int idProd, Date fecha1, Date fecha2, int idVenta, int marc) {
             try{
                 Class.forName(DRIVER);
                 CONEXION = DriverManager.getConnection(RUTA,USER,PASSWORD);
-                if (idProd==0 && idVenta==0) {
+                if (idProd==0 && idVenta==0 && marc==0) {
                     //la ruta del archivo debe ser "src//...//...//reporte.jasper"
                     String archivo="src//com//reportes//VentasAll.jasper";
                     JasperReport reporte=null;
@@ -124,7 +124,21 @@ public class IniciarReportes {
                     JasperViewer visor=new JasperViewer(jasperprint,false);
                     visor.setTitle("Reporte Ventas");
                     visor.setVisible(true);
-                }if(idProd>0){
+                }
+                 if (marc==1 && idVenta==0 && idProd==0) {
+                    //la ruta del archivo debe ser "src//...//...//reporte.jasper"
+                    String archivo="src//com//reportes//VentasAllMedicamentos.jasper";
+                    JasperReport reporte=null;
+                    reporte=(JasperReport)JRLoader.loadObjectFromFile(archivo);
+                    Map param=new HashMap();
+                    param.put("fecha1", fecha1);
+                    param.put("fecha2", fecha2);
+                    JasperPrint jasperprint = JasperFillManager.fillReport(reporte, param, CONEXION);
+                    JasperViewer visor=new JasperViewer(jasperprint,false);
+                    visor.setTitle("Reporte Ventas");
+                    visor.setVisible(true);
+                }
+                if(idProd>0){
                     String archivo="src//com//reportes//VentasProducto.jasper";
                     JasperReport reporte=null;
                     reporte=(JasperReport)JRLoader.loadObjectFromFile(archivo);

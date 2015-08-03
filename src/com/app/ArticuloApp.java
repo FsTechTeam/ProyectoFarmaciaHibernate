@@ -589,6 +589,7 @@ public class ArticuloApp extends javax.swing.JDialog {
     private javax.swing.JTextField pve;
     private javax.swing.JComboBox tipo;
     // End of variables declaration//GEN-END:variables
+
 private void hibernateSession(){
     st = HibernateUtil.getSessionFactory().openSession();
 }

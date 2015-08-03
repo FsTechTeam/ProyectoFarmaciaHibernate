@@ -32,9 +32,17 @@ public class CellRenderer extends DefaultTableCellRenderer implements TableCellR
                 
         }
         if(String.valueOf(table.getValueAt(row,3)).equals("false")){
+            table.setValueAt("PENDIENTE", row, 3);
+        }
+        if(String.valueOf(table.getValueAt(row,3)).equals("true")){
+            table.setValueAt("CANCELADA", row, 3);
+        }
+        if(String.valueOf(table.getValueAt(row,3)).equals("PENDIENTE")){
            Color color = new Color(224, 50, 37); 
            setBackground(color);
         }
+        
+        
         return this;
     }
 

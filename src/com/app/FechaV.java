@@ -6,7 +6,7 @@
 package com.app;
 
 import com.entidades.Articulo;
-import com.entidades.Lote;
+
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -49,26 +49,26 @@ public class FechaV extends javax.swing.JDialog {
     public void hibernateSession(){
         st = HibernateUtil.getSessionFactory().openSession();
     }
-    public void guardar(){
-        try{
-            st.beginTransaction();
-            Lote lote = new Lote();
-            Articulo articuloID = retornoTipo(idArt);
-            SimpleDateFormat formato = new SimpleDateFormat("YYMMdd");
-            String fecha1 = formato.format(jFecha.getDate());
-            Calendar fechaV = retornarCalendar(fecha1);
-            lote.setNLote(NuevoLote);
-            lote.setFechaV(fechaV);
-            lote.setArticulo(articuloID);
-            articuloID.getLote().add(lote);
-            st.save(lote);
-            st.update(articuloID);
-            st.getTransaction().commit();
-            JOptionPane.showMessageDialog(null, "Lote guardado.");
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Lote no guardado");
-        }
-    }
+//    public void guardar(){
+//        try{
+//            st.beginTransaction();
+//            Lote lote = new Lote();
+//            Articulo articuloID = retornoTipo(idArt);
+//            SimpleDateFormat formato = new SimpleDateFormat("YYMMdd");
+//            String fecha1 = formato.format(jFecha.getDate());
+//            Calendar fechaV = retornarCalendar(fecha1);
+//            lote.setNLote(NuevoLote);
+//            lote.setFechaV(fechaV);
+//            lote.setArticulo(articuloID);
+//            articuloID.getLote().add(lote);
+//            st.save(lote);
+//            st.update(articuloID);
+//            st.getTransaction().commit();
+//            JOptionPane.showMessageDialog(null, "Lote guardado.");
+//        }catch(Exception e){
+//            JOptionPane.showMessageDialog(null, "Lote no guardado");
+//        }
+//    }
     public Articulo retornoTipo(int idAr){
     Articulo artRet = null;
     int idA = idAr;
@@ -202,7 +202,7 @@ public class FechaV extends javax.swing.JDialog {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        guardar();
+//        guardar();
         
 
     }//GEN-LAST:event_btnGuardarActionPerformed

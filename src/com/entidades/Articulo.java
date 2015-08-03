@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 })
 public class Articulo implements Serializable {
-    private List<Lote> lote = new ArrayList<Lote>();
+    
     private int id;
     private String des;
     private double pco;
@@ -119,14 +119,7 @@ public class Articulo implements Serializable {
         return this.des;
     
     }
-    @OneToMany(mappedBy = "articulo")
-    public List<Lote> getLote() {
-        return lote;
-    }
-
-    public void setLote(List<Lote> lote) {
-        this.lote = lote;
-    }
+    
     
        
     

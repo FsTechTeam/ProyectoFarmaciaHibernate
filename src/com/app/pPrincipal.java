@@ -5,6 +5,7 @@
  */
 package com.app;
 
+import com.entidades.Articulo;
 import com.entidades.VentaCab;
 import com.entidades.VentaDet;
 import com.toedter.calendar.JTextFieldDateEditor;
@@ -23,6 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import util.HibernateUtil;
 
@@ -116,6 +118,11 @@ public class pPrincipal extends javax.swing.JPanel {
             }
         });
         jTable1.setComponentPopupMenu(jPopupMenu1);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -289,6 +296,31 @@ public class pPrincipal extends javax.swing.JPanel {
         pagarVenta(idVenta);
       
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+    private void eliminar(int idV){
+        st.beginTransaction();
+        VentaDet vd = (VentaDet)st.load(VentaDet.class, idV);
+        int cantidad = vd.getCant();
+        Query query = st.createQuery("delete Product where price > :maxPrice");
+        query.setParameter("maxPrice", new Float(1000f));
+        int result = query.executeUpdate();
+        if (result > 0) {
+            System.out.println("Expensive products was removed");
+        }
+    }
+    public void actualizarStrock(int cantidadCompra, int idArticulo){
+    //Despúes que el proceso de guardado se de de forma correcta, 
+    //se actualizar el stock de los artículos comprados.
+    st.beginTransaction();
+    Articulo actualizar = (Articulo)st.load(Articulo.class, idArticulo);
+    int temp = actualizar.getCan() + cantidadCompra;
+    actualizar.setCan(temp);
+    st.update(actualizar);
+    st.getTransaction().commit();
+}
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        //eliminar(1);
+    }//GEN-LAST:event_jTable1MouseClicked
     public void pagarVenta(int idV){
         st.beginTransaction();
         VentaCab venta = (VentaCab)st.load(VentaCab.class, idV);

@@ -806,7 +806,7 @@ public void hibernateSession(){
     st = HibernateUtil.getSessionFactory().openSession();
 }
 public void arranque(){
-    AutoCompleteDecorator.decorate(this.producto);
+    //AutoCompleteDecorator.decorate(this.producto);
     addEscapeKey();
     cargarCombo();
     this.jPanel4.setEnabled(false);
