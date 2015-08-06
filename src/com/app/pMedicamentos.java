@@ -5,6 +5,7 @@
  */
 package com.app;
 
+import OtrasClases.CellRenderer;
 import com.entidades.Articulo;
 import com.reportes.IniciarReportes;
 import static java.awt.image.ImageObserver.WIDTH;
@@ -107,7 +108,6 @@ public class pMedicamentos extends javax.swing.JPanel{
 
         menuTablaMedicamentos = new javax.swing.JPopupMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jTextField1 = new javax.swing.JTextField();
@@ -124,14 +124,6 @@ public class pMedicamentos extends javax.swing.JPanel{
             }
         });
         menuTablaMedicamentos.add(jMenuItem1);
-
-        jMenuItem2.setText("Estadisticas");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        menuTablaMedicamentos.add(jMenuItem2);
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -251,20 +243,11 @@ public class pMedicamentos extends javax.swing.JPanel{
        
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        int selectedRow= this.jTable1.getSelectedRow();
-        int idProd=Integer.parseInt(String.valueOf(model.getValueAt(selectedRow, 0)));
-        pEstadisticasProducto estP = new pEstadisticasProducto(new javax.swing.JFrame(), true, idProd);
-        estP.setVisible(true);
-        arranque();
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;

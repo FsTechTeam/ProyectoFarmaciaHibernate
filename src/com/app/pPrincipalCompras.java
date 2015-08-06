@@ -5,6 +5,7 @@
  */
 package com.app;
 
+import OtrasClases.CellRenderer;
 import com.entidades.Articulo;
 import com.entidades.CompraCab;
 import com.entidades.CompraDet;

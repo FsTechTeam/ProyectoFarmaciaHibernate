@@ -5,7 +5,9 @@
  */
 package com.app;
 
+import OtrasClases.CellRenderer;
 import com.entidades.Articulo;
+import com.entidades.Cliente;
 import com.entidades.VentaCab;
 import com.entidades.VentaDet;
 import com.toedter.calendar.JTextFieldDateEditor;
@@ -15,6 +17,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -45,7 +48,6 @@ public class pPrincipal extends javax.swing.JPanel {
         setCellRender(jTable1);
         jDateChooser1.setDate(date2);
         listenerDateChooser();
-        //jDateChooser1.setDateFormatString("dd/mm/yyyy");
         jTable1.setEnabled(true);
         hibernateSession();
         arranque();
@@ -53,7 +55,6 @@ public class pPrincipal extends javax.swing.JPanel {
     }
     private DefaultTableModel model;
     private Session st;
-
     private void hibernateSession() {
         st = HibernateUtil.getSessionFactory().openSession();
     }
@@ -68,6 +69,7 @@ public class pPrincipal extends javax.swing.JPanel {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jSeparator2 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -91,6 +93,14 @@ public class pPrincipal extends javax.swing.JPanel {
             }
         });
         jPopupMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("Eliminar");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItem2);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setMaximumSize(new java.awt.Dimension(1002, 734));
@@ -269,7 +279,6 @@ public class pPrincipal extends javax.swing.JPanel {
         Date date = new Date(jDateChooser1.getDate().getTime() - 86400000);
         SimpleDateFormat formato = new SimpleDateFormat("YYMMdd");
         jDateChooser1.setDate(date);
-        //arranque();
     }//GEN-LAST:event_buttonTransluceIcon1MouseClicked
 
     private void buttonTransluceIcon2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonTransluceIcon2MouseClicked
@@ -291,36 +300,72 @@ public class pPrincipal extends javax.swing.JPanel {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
         int selectedRow = this.jTable1.getSelectedRow();
-      //Se obtiene el "id" del registro que esta en la columna "0"
+        //Se obtiene el "id" del registro que esta en la columna "0"
         int idVenta = Integer.parseInt(String.valueOf(model.getValueAt(selectedRow, 0)));
         pagarVenta(idVenta);
       
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-    private void eliminar(int idV){
-        st.beginTransaction();
-        VentaDet vd = (VentaDet)st.load(VentaDet.class, idV);
-        int cantidad = vd.getCant();
-        Query query = st.createQuery("delete Product where price > :maxPrice");
-        query.setParameter("maxPrice", new Float(1000f));
-        int result = query.executeUpdate();
-        if (result > 0) {
-            System.out.println("Expensive products was removed");
+    private void eliminarVentas(int idV){
+        int showConfirmDialog = JOptionPane.showConfirmDialog(null, "Eliminación de Registro", "Desea eliminar esta venta?.", JOptionPane.YES_NO_OPTION);
+        if(showConfirmDialog == 1){
+            JOptionPane.showMessageDialog(null, "Venta no eliminada.");
         }
+        else{
+            List<VentaDet> vd = (List<VentaDet>) st.createQuery("From VentaDet").list();
+            for(VentaDet detalleVenta : vd){
+                int idVenta = detalleVenta.getVentaCab().getNum();
+                if(idVenta==idV){
+                    int idDetV = detalleVenta.getNum();
+                    int cantidad = detalleVenta.getCant();
+                    int idArt = detalleVenta.getArticulo().getId();
+                    actualizarStrock(cantidad, idArt);
+                    eliminarDetalle(idDetV);
+                }
+            }
+            eliminarVenta(idV);
+            arranque();
+        }
+    }
+    public void eliminarDetalle(int detalle){
+        st.beginTransaction();
+        int idDetalle= detalle;
+        VentaDet vd = (VentaDet)st.load(VentaDet.class, idDetalle);
+        st.delete(vd);
+        st.getTransaction().commit();
+    }
+    public void eliminarVenta(int ventaC){
+       st.beginTransaction();
+       int idDetalle= ventaC;
+       VentaCab vc = (VentaCab)st.load(VentaCab.class, ventaC);
+       st.delete(vc);
+       st.getTransaction().commit();
+       JOptionPane.showMessageDialog(null, "Venta Eliminada: # "+ ventaC);
     }
     public void actualizarStrock(int cantidadCompra, int idArticulo){
     //Despúes que el proceso de guardado se de de forma correcta, 
     //se actualizar el stock de los artículos comprados.
-    st.beginTransaction();
-    Articulo actualizar = (Articulo)st.load(Articulo.class, idArticulo);
-    int temp = actualizar.getCan() + cantidadCompra;
-    actualizar.setCan(temp);
-    st.update(actualizar);
-    st.getTransaction().commit();
-}
+        st.beginTransaction();
+        Articulo actualizar = (Articulo)st.load(Articulo.class, idArticulo);
+        int temp = actualizar.getCan() + cantidadCompra;
+        actualizar.setCan(temp);
+        st.update(actualizar);
+        st.getTransaction().commit();
+    }
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        // TODO add your handling code here:
-        //eliminar(1);
+       
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        try{
+        int selectedRow = this.jTable1.getSelectedRow();
+      //Se obtiene el "id" del registro que esta en la columna "0"
+        int idVenta = Integer.parseInt(String.valueOf(model.getValueAt(selectedRow, 0)));
+        eliminarVentas(idVenta);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Seleccione una fila, error: "+e);
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
     public void pagarVenta(int idV){
         st.beginTransaction();
         VentaCab venta = (VentaCab)st.load(VentaCab.class, idV);
@@ -331,7 +376,6 @@ public class pPrincipal extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(null, "Venta Pagada");
     
     }
-    
     public void centrar() {
         JTextFieldDateEditor fecha = (JTextFieldDateEditor) jDateChooser1.getComponent(1);
         fecha.setHorizontalAlignment(JTextField.CENTER);
@@ -344,7 +388,6 @@ public class pPrincipal extends javax.swing.JPanel {
             
         }
     }
-
     public void listenerDateChooser() {
         jDateChooser1.getDateEditor().addPropertyChangeListener(new PropertyChangeListener() {
             @Override
@@ -359,7 +402,6 @@ public class pPrincipal extends javax.swing.JPanel {
         Tablemodel();
         cargarTabla();
     }
-
     public void Tablemodel() {
         this.jTable1.setRowHeight(20);
         this.jTable1.getColumnModel().getColumn(0).setPreferredWidth(15);
@@ -368,9 +410,7 @@ public class pPrincipal extends javax.swing.JPanel {
         model = (DefaultTableModel)this.jTable1.getModel();
         model.setNumRows(0);
     }
-
     public void cargarTabla() {
-        
        Tablemodel();
         SimpleDateFormat formato = new SimpleDateFormat("YYMMdd");
         String fecha = formato.format(jDateChooser1.getDate());
@@ -385,18 +425,10 @@ public class pPrincipal extends javax.swing.JPanel {
                     contador=contador+ ventaList.getVentaCab().getTotal();
                 }
                 contador = Math.rint(contador*100)/100;
-                
             }
-            
         }
-//        int numFilas=model.getRowCount();
-//        for (int i = 0; i <numFilas; i++) {
-//            model.setValueAt(i+1, i, 0);
-//        }
-//        this.jTable1.getColumnModel().getColumn(0).setCellRenderer(jTable1.getTableHeader().getDefaultRenderer());
-            salidat.setText("Q. "+contador);
+        salidat.setText("Q. "+contador);
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.edisoncor.gui.button.ButtonTransluceIcon buttonTransluceIcon1;
     private org.edisoncor.gui.button.ButtonTransluceIcon buttonTransluceIcon2;
@@ -407,6 +439,7 @@ public class pPrincipal extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;

@@ -10,6 +10,7 @@
  */
 package com.app;
 
+import OtrasClases.OvalBorder;
 import com.entidades.Articulo;
 import com.entidades.VentaDet;
 import com.reportes.IniciarReportes;

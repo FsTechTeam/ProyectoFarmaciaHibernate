@@ -10,7 +10,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select vc.num, concat(a.des, " ",t.des) as'articulo', vd.cant, vc.fecha, vc.total from VentaCab vc inner join VentaDet vd on vc.num=vd.ventacab_num inner join Articulo a on vd.articulo_id=a.id inner join Tipo t on a.tipo_id = t.id where vc.fecha between $P{fecha1} and $P{fecha2} order by concat(a.des, " ",t.des), vc.fecha desc;]]>
+		<![CDATA[select vc.num, concat(a.des, " ",t.des) as'articulo', vd.cant, vc.fecha, vd.importe from VentaCab vc inner join VentaDet vd on vc.num=vd.ventacab_num inner join Articulo a on vd.articulo_id=a.id inner join Tipo t on a.tipo_id = t.id where vc.fecha between $P{fecha1} and $P{fecha2} order by concat(a.des, " ",t.des), vc.fecha desc;]]>
 	</queryString>
 	<field name="num" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -22,11 +22,11 @@
 	<field name="fecha" class="java.sql.Date">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="total" class="java.lang.Double">
+	<field name="importe" class="java.lang.Double">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<variable name="SumaProv" class="java.lang.Double" resetType="Group" resetGroup="Proveedor" calculation="Sum">
-		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+		<variableExpression><![CDATA[$F{importe}]]></variableExpression>
 	</variable>
 	<variable name="CantMed" class="java.lang.Integer" resetType="Group" resetGroup="Proveedor" calculation="Sum">
 		<variableExpression><![CDATA[$F{cant}]]></variableExpression>
@@ -218,11 +218,11 @@
 				<textFieldExpression><![CDATA[$F{cant}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="385" y="0" width="141" height="37" uuid="c2ff6a64-d0da-4892-a2ee-d7d4fa944234"/>
+				<reportElement x="413" y="0" width="105" height="35" uuid="76975452-ab4f-4ef2-b842-658f263529eb"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Century Gothic" size="12" isBold="true"/>
+					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new java.text.DecimalFormat("Q #,##0.00").format(Double.valueOf($F{total}))]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("Q #,##0.00").format(Double.valueOf($F{importe}))]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
