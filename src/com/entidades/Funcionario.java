@@ -7,6 +7,7 @@ package com.entidades;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,16 +22,27 @@ import javax.persistence.OneToMany;
 public class Funcionario implements Serializable {
     private List<CompraCab> compraCabs = new ArrayList<CompraCab>();
     private List<VentaCab> ventaCabs = new ArrayList<VentaCab>();
+    private List<Usuarios> usuarios = new ArrayList<>();
     private int id;
     private String nombres;
     private String apellidos;
     private String dir;
     private String tel;
     private String cargo;
+    
 
     public String getApellidos() {
         return apellidos;
     }
+    @OneToMany(mappedBy = "funcionario")
+    public List<Usuarios> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuarios> usuarios) {
+        this.usuarios = usuarios;
+    }
+    
 
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;

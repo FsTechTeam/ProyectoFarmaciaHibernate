@@ -12,11 +12,12 @@
     <mapping class="com.entidades.Cliente"/>
     <mapping class="com.entidades.CompraCab"/>
     <mapping class="com.entidades.CompraDet"/>
-    <mapping class="com.entidades.Funcionario"/>
     <mapping class="com.entidades.Proveedor"/>
     <mapping class="com.entidades.Tipo"/>
     <mapping class="com.entidades.VentaCab"/>
     <mapping class="com.entidades.VentaDet"/>
     <mapping class="com.reportes.IniciarReportes"/>
+    <mapping class="com.entidades.Usuarios"/>
+    <mapping class="com.entidades.Funcionario"/>
   </session-factory>
 </hibernate-configuration>
