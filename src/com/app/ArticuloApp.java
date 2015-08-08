@@ -42,8 +42,8 @@ import util.HibernateUtil;
 public class ArticuloApp extends javax.swing.JDialog {
 
     /** Creates new form ArticuloApp */
-    public ArticuloApp(/*java.awt.Frame parent, boolean modal*/) {
-        //super(parent, modal);
+    public ArticuloApp(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
         hibernateSession();
@@ -53,7 +53,24 @@ public class ArticuloApp extends javax.swing.JDialog {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.can.setVisible(false);
         this.can.setText("0");
+        this.pve.setEnabled(false);
         
+    }
+    public int idArti=0;
+    public ArticuloApp(int idArt, java.awt.Frame parent, boolean modal){
+        super(parent, modal); 
+        initComponents();
+        setLocationRelativeTo(null);
+        hibernateSession();
+        arranque();
+        id.setVisible(false);
+        cargarCombo();
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.can.setVisible(false);
+        this.can.setText("0");
+        this.idArti=idArt;
+        this.pve.setEnabled(false);
+        retornarArticulo();
     }
     private Session st;
     private DefaultTableModel model;
@@ -243,7 +260,6 @@ public class ArticuloApp extends javax.swing.JDialog {
         jLabel6.setFont(new java.awt.Font("Malayalam MN", 0, 18)); // NOI18N
         jLabel6.setText("Q.");
 
-        pve.setEditable(false);
         pve.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 pveFocusLost(evt);
@@ -269,46 +285,40 @@ public class ArticuloApp extends javax.swing.JDialog {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addComponent(tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnPresentacion, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addComponent(jLabel12)
+                            .addGap(193, 193, 193)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addComponent(tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btnPresentacion, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addComponent(jLabel12)
-                                    .addGap(193, 193, 193)))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel5)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(pco, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel20))
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel6)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(pve, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel7))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGap(20, 20, 20)
-                                        .addComponent(jLabel21)))
+                                .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel13)
-                                    .addComponent(por, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(pco, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel20))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(des, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(41, 41, 41)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel19)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel6)
+                                .addGap(18, 18, 18)
+                                .addComponent(pve, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel7))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(jLabel21)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel13)
+                            .addComponent(por, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(des, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -469,7 +479,7 @@ public class ArticuloApp extends javax.swing.JDialog {
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
         // TODO add your handling code here:
         arranque();
-        //this.dispose();
+        this.dispose();
     }//GEN-LAST:event_cancelarActionPerformed
 
     private void nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoActionPerformed
@@ -544,7 +554,7 @@ public class ArticuloApp extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                ArticuloApp dialog = new ArticuloApp(/*new javax.swing.JFrame(), true*/);
+                ArticuloApp dialog = new ArticuloApp(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 
                     @Override
@@ -788,13 +798,13 @@ public void guardar(){
                                     art.setPco(pCompra);
                                     art.setPve(pVenta);
                                     art.setPor(porcentaje);
-                                    art.setCan(cantidad);
                                     retornoTipo.getArticulos().add(art);
                                     st.update(art);
                                     st.update(retornoTipo);
                                     st.getTransaction().commit();
                                     JOptionPane.showMessageDialog(null, "Artículo actualizado correctamente.");
                                     arranque();
+                                    this.dispose();
                             }
                         }
                     }
@@ -851,24 +861,23 @@ public void auxiliarCalculoDos(){
         }        
     }    
 }
-//public void retornarArticulo(){
-//    if(this.jTable1.isEnabled()){
-//        int selectedRow = this.jTable1.getSelectedRow();
-//        Object valueAt = model.getValueAt(selectedRow, 0);
-//        int idArt = Integer.parseInt(valueAt.toString());
-//        Articulo art = (Articulo)st.load(Articulo.class, idArt);
-//        this.id.setText(String.valueOf(art.getId()));
-//        this.des.setText(art.getDes());
-//        this.tipo.setSelectedItem(art.getTipo().getDes());
-//        this.pco.setText(String.valueOf(art.getPco()));
-//        this.pve.setText(String.valueOf(art.getPve()));
-//        this.por.setText(String.valueOf(art.getPor()));
-//        this.can.setText(String.valueOf(art.getCan()));
-//        this.editar.setEnabled(true);
-//        this.eliminar.setEnabled(true);
-//        this.nuevo.setEnabled(false);
-//    }    
-//}
+public void retornarArticulo(){
+    
+        int idArt = idArti;
+        Articulo art = (Articulo)st.load(Articulo.class, idArt);
+        this.id.setText(String.valueOf(art.getId()));
+        this.des.setText(art.getDes());
+        this.tipo.setSelectedItem(art.getTipo().getDes());
+        this.pco.setText(String.valueOf(art.getPco()));
+        this.pve.setText(String.valueOf(art.getPve()));
+        this.por.setText(String.valueOf(art.getPor()));
+        this.can.setText(String.valueOf(art.getCan()));
+        this.tipo.setSelectedIndex(art.getTipo().getId());
+        this.editar.setEnabled(true);
+        this.eliminar.setEnabled(true);
+        this.nuevo.setEnabled(false);
+      
+}
 public void editar(){
     this.des.setEnabled(true);
     this.tipo.setEnabled(true);

@@ -5,16 +5,22 @@
  */
 package OtrasClases;
 
+import com.entidades.Articulo;
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import org.hibernate.Session;
+import util.HibernateUtil;
 
-public class CellRenderer extends DefaultTableCellRenderer implements TableCellRenderer {
+public class CellRendererComp extends DefaultTableCellRenderer implements TableCellRenderer {
+    
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        
         //establecemos el fondo blanco o vacío
         setBackground(null);
         //COnstructor de la clase DefaultTableCellRenderer
@@ -31,18 +37,6 @@ public class CellRenderer extends DefaultTableCellRenderer implements TableCellR
             setBackground(c);
                 
         }
-        if(String.valueOf(table.getValueAt(row,4)).equals("false")){
-            table.setValueAt("PENDIENTE", row, 4);
-        }
-        if(String.valueOf(table.getValueAt(row,4)).equals("true")){
-            table.setValueAt("PAGADO", row, 4);
-        }
-        if(String.valueOf(table.getValueAt(row,4)).equals("PENDIENTE")){
-           Color color = new Color(224, 50, 37); 
-           setBackground(color);
-        }
-        
-        
         return this;
     }
 

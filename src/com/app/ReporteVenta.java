@@ -56,8 +56,8 @@ public class ReporteVenta extends javax.swing.JDialog {
     /** Creates new form ReporteVenta */
     DefaultComboBoxModel combomodel;
     
-    public ReporteVenta(/*java.awt.Frame parent, boolean modal*/) {
-       // super(parent, modal);
+    public ReporteVenta(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();        
         setLocationRelativeTo(null);
         hibernateSession();
@@ -92,6 +92,7 @@ public class ReporteVenta extends javax.swing.JDialog {
         jLabel16 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
+        btnPresentacion = new org.edisoncor.gui.button.ButtonSeven();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Formulario de Reportes");
@@ -260,28 +261,43 @@ public class ReporteVenta extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Comfortaa", 3, 12)); // NOI18N
         jLabel1.setText("Esc para salir. . .");
 
+        btnPresentacion.setBackground(new java.awt.Color(255, 0, 51));
+        btnPresentacion.setText("Salir");
+        btnPresentacion.setFont(new java.awt.Font("Century Gothic", 1, 10)); // NOI18N
+        btnPresentacion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPresentacionMouseClicked(evt);
+            }
+        });
+        btnPresentacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPresentacionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(13, 13, 13)
-                                .addComponent(jLabel16))
-                            .addComponent(jLabel7)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(13, 13, 13)
+                        .addComponent(jLabel16))
+                    .addComponent(jLabel7)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(255, 255, 255)
-                        .addComponent(jLabel1)))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(24, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(255, 255, 255)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnPresentacion, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -297,8 +313,10 @@ public class ReporteVenta extends javax.swing.JDialog {
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(btnPresentacion, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -346,6 +364,7 @@ public class ReporteVenta extends javax.swing.JDialog {
                             }
                         }
                 }
+             
             } catch (ParseException ex) {
                 JOptionPane.showMessageDialog(null, "Hubo un problema, revise sus datos.");
             }
@@ -390,6 +409,15 @@ public class ReporteVenta extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
+    private void btnPresentacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPresentacionMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPresentacionMouseClicked
+
+    private void btnPresentacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPresentacionActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnPresentacionActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -421,7 +449,7 @@ public class ReporteVenta extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                ReporteVenta dialog = new ReporteVenta(/*new javax.swing.JFrame(), true*/);
+                ReporteVenta dialog = new ReporteVenta(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 
                     @Override
@@ -436,6 +464,7 @@ public class ReporteVenta extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.edisoncor.gui.button.ButtonSeven btnGuardar;
     private org.edisoncor.gui.button.ButtonSeven btnGuardar1;
+    private org.edisoncor.gui.button.ButtonSeven btnPresentacion;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jFecha1;
     private com.toedter.calendar.JDateChooser jFecha2;
@@ -544,6 +573,7 @@ public class ReporteVenta extends javax.swing.JDialog {
     public void llamarReporteVenta(int id, Date f1, Date f2, int idVenta, int marc, int general) {
         IniciarReportes ir = new IniciarReportes();
         ir.ReporteVentas(id, f1, f2, idVenta, marc, general);
+        this.dispose();
     
     }
    

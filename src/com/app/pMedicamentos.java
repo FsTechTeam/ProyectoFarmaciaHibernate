@@ -6,11 +6,14 @@
 package com.app;
 
 import OtrasClases.CellRenderer;
+import OtrasClases.CellRendererMed;
 import com.entidades.Articulo;
 import com.reportes.IniciarReportes;
 import static java.awt.image.ImageObserver.WIDTH;
 import java.util.Enumeration;
 import java.util.List;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -35,6 +38,9 @@ public class pMedicamentos extends javax.swing.JPanel{
         jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
         jTable1.getColumnModel().getColumn(0).setMinWidth(0);
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(0);
+        jTable1.getColumnModel().getColumn(7).setPreferredWidth(0);
+        jTable1.getColumnModel().getColumn(7).setMaxWidth(0);
+        jTable1.getColumnModel().getColumn(7).setMinWidth(0);
         jTextField1.requestFocus();
         
         
@@ -44,7 +50,7 @@ public class pMedicamentos extends javax.swing.JPanel{
         Enumeration<TableColumn> en = table.getColumnModel().getColumns();
         while (en.hasMoreElements()) {
             TableColumn tc = en.nextElement();
-            tc.setCellRenderer(new CellRenderer());
+            tc.setCellRenderer(new CellRendererMed());
         }
     }
     
@@ -71,6 +77,9 @@ public class pMedicamentos extends javax.swing.JPanel{
     this.jTable1.getColumnModel().getColumn(4).setPreferredWidth(30);
     this.jTable1.getColumnModel().getColumn(5).setPreferredWidth(20);
     this.jTable1.getColumnModel().getColumn(6).setPreferredWidth(20);
+    this.jTable1.getColumnModel().getColumn(7).setPreferredWidth(0);
+    this.jTable1.getColumnModel().getColumn(7).setMaxWidth(0);
+    this.jTable1.getColumnModel().getColumn(7).setMinWidth(0);
     model = (DefaultTableModel)this.jTable1.getModel();
     model.setNumRows(0);
     
@@ -80,20 +89,21 @@ public class pMedicamentos extends javax.swing.JPanel{
     }
     public void cargarTabla(){
     List<Articulo> lista = (List<Articulo>)st.createQuery("From Articulo a order by a.des").list();
+    int estado=0;
     for(Articulo articuloList : lista){
         model.addRow(new Object[]{
-           articuloList.getId(), articuloList.getDes(),articuloList.getTipo().getDes(),"Q. "+articuloList.getPve(), "Q. "+articuloList.getPco(), " "+ articuloList.getCan()+"   UNIDAD(ES)", "Q. "+articuloList.getPor()});
+           articuloList.getId(), articuloList.getDes(),articuloList.getTipo().getDes(),"Q. "+articuloList.getPve(), "Q. "+articuloList.getPco(), " "+ articuloList.getCan()+"   UNIDAD(ES)", "Q. "+articuloList.getPor(), estado = articuloList.getCan()<5?1:2});
     }
 }
     private void busquedaProducto(String nombre, int filtro){
          Query q = st.getNamedQuery("Articulo.findBydes");
          q.setString("descripcion", nombre+"%");
          List<Articulo> lista = q.list();
+         int estado=0;
             for(Articulo articuloList : lista){
                 model.addRow(new Object[]{
-                    articuloList.getId(), articuloList.getDes(),articuloList.getTipo().getDes(),"Q. "+articuloList.getPve(), "Q. "+articuloList.getPco(), " "+ articuloList.getCan()+"   UNIDAD(ES)", "Q. "+articuloList.getPor()});
+                    articuloList.getId(), articuloList.getDes(),articuloList.getTipo().getDes(),"Q. "+articuloList.getPve(), "Q. "+articuloList.getPco(), " "+ articuloList.getCan()+" UNIDAD(ES)", "Q. "+articuloList.getPor(), estado = articuloList.getCan()<5?1:2});
             }
-    
     
     }
 
@@ -116,6 +126,7 @@ public class pMedicamentos extends javax.swing.JPanel{
             return false; //Disallow the editing of any cell
         }};
         jLabel21 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         jMenuItem1.setText("Compra Rapida");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -129,7 +140,7 @@ public class pMedicamentos extends javax.swing.JPanel{
 
         jLabel1.setFont(new java.awt.Font("Comfortaa", 0, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 102, 153));
-        jLabel1.setText("Visualice la informacion de todos los productos . . . ");
+        jLabel1.setText("Visualice la informacion de todos nuestros productos . . . ");
 
         jSeparator1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -142,13 +153,13 @@ public class pMedicamentos extends javax.swing.JPanel{
         jTable1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "id", "Producto", "Presentacion", "Precio Venta", "Precio Compra", "Existencias", "Precio Calle"
+                "id", "Producto", "Presentacion", "Precio Venta", "Precio Compra", "Existencias", "Precio Calle", "Title 8"
             }
         ));
         jTable1.setToolTipText("Medicamentos");
@@ -163,29 +174,41 @@ public class pMedicamentos extends javax.swing.JPanel{
         jLabel21.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel21.setText("Buscar Medicamento:");
 
+        jLabel2.setFont(new java.awt.Font("Comfortaa", 0, 16)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 102, 153));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/img/verProductos.png"))); // NOI18N
+        jLabel2.setText("+ Agregar Medicamento");
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(25, 25, 25)
-                                .addComponent(jLabel1)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(16, 16, 16)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 866, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(30, 30, 30)
-                                .addComponent(jLabel21)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField1)))
-                        .addGap(8, 8, 8)))
-                .addContainerGap())
+                        .addGap(16, 16, 16)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 866, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 829, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(25, 25, 25)
+                                    .addComponent(jLabel1))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(30, 30, 30)
+                                    .addComponent(jLabel21)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(29, 29, 29)
+                                    .addComponent(jLabel2))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(14, 14, 14))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,9 +220,10 @@ public class pMedicamentos extends javax.swing.JPanel{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel21))
+                    .addComponent(jLabel21)
+                    .addComponent(jLabel2))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -238,14 +262,37 @@ public class pMedicamentos extends javax.swing.JPanel{
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        int selectedRow= this.jTable1.getSelectedRow();
-        System.out.println(String.valueOf(model.getValueAt(selectedRow, 0)));
+        if(evt.getClickCount()==2){
+            try{
+            int selectedRow= this.jTable1.getSelectedRow();
+            Object valueAt = model.getValueAt(selectedRow, 0);
+            int idArtic = Integer.parseInt(valueAt.toString());
+            Principal p = new Principal();
+            ArticuloApp ar = new ArticuloApp(idArtic, p, true);
+            ar.setModal(true);
+            ar.setVisible(true);
+            arranque();
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Error, vuelva a intentarlo");
+            }
+        
+        }
+        
        
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        // TODO add your handling code here:
+        
+        ArticuloApp ar = new ArticuloApp(new Principal(), false);
+        ar.setModal(true);
+        ar.setVisible(true);
+    }//GEN-LAST:event_jLabel2MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;

@@ -558,6 +558,7 @@ public class VentaApp extends javax.swing.JDialog {
 
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
         arranque();// Evento ActionPerformed para botón cancelar.
+        this.dispose();
     }//GEN-LAST:event_cancelarActionPerformed
 
     private void idKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idKeyPressed
@@ -1201,9 +1202,9 @@ public void guardar(){
                     for (int i = 0; i < idArti.length; i++) {
                         actualizarStrock(cantVenta[i], idArti[i]);
                     }
+                    actualizarVenta(venta.getNum());
                     arranque();
                     JOptionPane.showMessageDialog(null, "Venta guardada correctamente.");
-                    this.dispose();
                     this.dispose();
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Error guardando venta. Verifique.");
@@ -1216,6 +1217,18 @@ public void guardar(){
             
         }
     }
+}
+public void actualizarVenta(int idVenta){
+   try{
+    st.beginTransaction();
+    int idV = idVenta;
+    VentaCab vc = (VentaCab)st.load(VentaCab.class, idV);
+    vc.setNumorden(String.valueOf(numVenta));
+    st.update(vc);
+    st.getTransaction().commit();
+   }catch(Exception e){
+       System.out.println("error actualizar");
+   }
 }
 public void actualizarStrock(int cantidadVendida, int idArticulo){
     st.beginTransaction();

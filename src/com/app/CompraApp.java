@@ -172,7 +172,6 @@ public class CompraApp extends javax.swing.JDialog {
         total = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
-        btnPresentacion = new org.edisoncor.gui.button.ButtonSeven();
         producto = new javax.swing.JComboBox();
         idArt = new javax.swing.JTextField();
         desArt = new javax.swing.JTextField();
@@ -392,15 +391,6 @@ public class CompraApp extends javax.swing.JDialog {
         jLabel23.setFont(new java.awt.Font("Lucida Sans", 1, 18)); // NOI18N
         jLabel23.setText("Q.");
 
-        btnPresentacion.setBackground(new java.awt.Color(0, 204, 0));
-        btnPresentacion.setText("+ Producto");
-        btnPresentacion.setFont(new java.awt.Font("Century Gothic", 1, 10)); // NOI18N
-        btnPresentacion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPresentacionActionPerformed(evt);
-            }
-        });
-
         producto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         producto.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -427,10 +417,8 @@ public class CompraApp extends javax.swing.JDialog {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(producto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnPresentacion, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(producto, 0, 241, Short.MAX_VALUE)
+                        .addGap(98, 98, 98)
                         .addComponent(jLabel23)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pco, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -473,7 +461,6 @@ public class CompraApp extends javax.swing.JDialog {
                             .addComponent(desArt, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnPresentacion, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(producto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(pco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel23)
@@ -781,6 +768,7 @@ public class CompraApp extends javax.swing.JDialog {
 
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
         arranque();// Evento ActionPerformed para botón cancelar.
+        this.dispose();
     }//GEN-LAST:event_cancelarActionPerformed
 
     private void idKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idKeyPressed
@@ -800,15 +788,6 @@ public class CompraApp extends javax.swing.JDialog {
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
         guardar();// Evento ActionPerformed para botón guardar.
     }//GEN-LAST:event_guardarActionPerformed
-
-    private void btnPresentacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPresentacionActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-        ArticuloApp nuevo= new ArticuloApp(/*new javax.swing.JFrame(), true*/);
-        nuevo.setVisible(true);
-        
-        cargarCombo();
-    }//GEN-LAST:event_btnPresentacionActionPerformed
 
     private void cantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cantidadKeyPressed
         //Uso del Evento KeyPressed dentro del campo de texto "cantidad".
@@ -935,7 +914,6 @@ public class CompraApp extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.edisoncor.gui.button.ButtonSeven agregar;
     private javax.swing.JTextField apellidos;
-    private org.edisoncor.gui.button.ButtonSeven btnPresentacion;
     private javax.swing.JTextField can;
     private javax.swing.JButton cancelar;
     private javax.swing.JTextField cantidad;

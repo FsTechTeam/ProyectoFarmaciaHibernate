@@ -478,9 +478,6 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="pve">
-              <Properties>
-                <Property name="editable" type="boolean" value="false"/>
-              </Properties>
               <Events>
                 <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="pveFocusLost"/>
               </Events>

@@ -25,9 +25,9 @@ import net.sf.jasperreports.view.JasperViewer;
  */
 public class IniciarReportes {
         public static final String DRIVER="com.mysql.jdbc.Driver";
-        public static final String RUTA="jdbc:mysql://localhost:3306/proyectobdfa?zeroDateTimeBehavior=convertToNull";
-        public static final String USER="root";
-        public static final String PASSWORD="";
+        public static final String RUTA="jdbc:mysql://192.168.10.120:3306/proyectobdfa?zeroDateTimeBehavior=convertToNull";
+        public static final String USER="F_admin";
+        public static final String PASSWORD="12345";
 	public static Connection CONEXION;
         
         public void ReporteCompras(int idProd, Date fecha1, Date fecha2, String NFact){

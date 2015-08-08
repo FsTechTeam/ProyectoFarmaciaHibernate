@@ -6,6 +6,7 @@
 package com.app;
 
 import OtrasClases.CellRenderer;
+import OtrasClases.CellRendererComp;
 import com.entidades.Articulo;
 import com.entidades.CompraCab;
 import com.entidades.CompraDet;
@@ -55,13 +56,14 @@ public class pPrincipalCompras extends javax.swing.JPanel {
         hibernateSession();
         arranque();
         centrar();
+        
        
     }
     public void setCellRender(JTable table) {
         Enumeration<TableColumn> en = table.getColumnModel().getColumns();
         while (en.hasMoreElements()) {
             TableColumn tc = en.nextElement();
-            tc.setCellRenderer(new CellRenderer());
+            tc.setCellRenderer(new CellRendererComp());
         }
     }
     private DefaultTableModel model;

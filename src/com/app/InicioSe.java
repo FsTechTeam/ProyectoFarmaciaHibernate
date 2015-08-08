@@ -5,18 +5,24 @@
  */
 package com.app;
 
+import com.entidades.Usuarios;
+import javax.swing.JOptionPane;
+import org.hibernate.Session;
+import util.HibernateUtil;
+
 /**
  *
  * @author Geek
  */
-public class InicioS extends javax.swing.JDialog {
+public class InicioSe extends javax.swing.JFrame {
 
     /**
-     * Creates new form InicioS
+     * Creates new form InicioSe
      */
-    public InicioS(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public InicioSe() {
         initComponents();
+        hibernateSession();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -28,22 +34,20 @@ public class InicioS extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelDeslizante1 = new org.edisoncor.gui.varios.PanelDeslizante();
-        panelNice1 = new org.edisoncor.gui.panel.PanelNice();
         panelCurves1 = new org.edisoncor.gui.panel.PanelCurves();
         jLabel20 = new javax.swing.JLabel();
-        passwordFieldRectIcon1 = new org.edisoncor.gui.passwordField.PasswordFieldRectIcon();
+        txtPass = new org.edisoncor.gui.passwordField.PasswordFieldRectIcon();
         jLabel7 = new javax.swing.JLabel();
         btnGuardar = new org.edisoncor.gui.button.ButtonSeven();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        panelNice1.setBackground(new java.awt.Color(0, 102, 153));
+        panelCurves1.setBackground(new java.awt.Color(255, 204, 0));
 
         jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/img/logotitulo.png"))); // NOI18N
 
+        jLabel7.setBackground(new java.awt.Color(0, 0, 0));
         jLabel7.setFont(new java.awt.Font("Comfortaa", 0, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Ingrese su contraseña. . . ");
 
         btnGuardar.setBackground(new java.awt.Color(0, 204, 0));
@@ -61,7 +65,7 @@ public class InicioS extends javax.swing.JDialog {
             panelCurves1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCurves1Layout.createSequentialGroup()
                 .addGroup(panelCurves1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(passwordFieldRectIcon1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelCurves1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(panelCurves1Layout.createSequentialGroup()
                             .addGap(113, 113, 113)
@@ -71,7 +75,7 @@ public class InicioS extends javax.swing.JDialog {
                             .addComponent(jLabel7))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
         panelCurves1Layout.setVerticalGroup(
             panelCurves1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -82,22 +86,26 @@ public class InicioS extends javax.swing.JDialog {
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
                 .addGroup(panelCurves1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passwordFieldRectIcon1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addContainerGap(95, Short.MAX_VALUE))
         );
-
-        panelNice1.add(panelCurves1, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelNice1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGap(0, 459, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(panelCurves1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelNice1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGap(0, 307, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(panelCurves1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 6, Short.MAX_VALUE)))
         );
 
         pack();
@@ -105,10 +113,37 @@ public class InicioS extends javax.swing.JDialog {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        
-
+        buscarUs(txtPass.getText());
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+     private Session st;
+    public void hibernateSession(){
+        st = HibernateUtil.getSessionFactory().openSession();
+    }
+    public void buscarUs(String pass){
+        if (txtPass.getText().isEmpty()==true) {
+            JOptionPane.showMessageDialog(null, "Ingrese su clave");
+        }else{
+            try{
+            int idUs = 1;
+            Usuarios us = (Usuarios)st.load(Usuarios.class, idUs);
+            String Upass=us.getPass();
+                if (Upass.equals(pass)) {
+                    new Principal().setVisible(true);
+                    
+                    
+                }else{
+                    JOptionPane.showMessageDialog(null, "Clave Incorrecta");
+                    txtPass.setText("");
+                    txtPass.requestFocus();
+                    Upass="";
+                
+                }
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Error: "+ e);
+            }
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -126,27 +161,20 @@ public class InicioS extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InicioS.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InicioSe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InicioS.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InicioSe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InicioS.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InicioSe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InicioS.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InicioSe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
-        /* Create and display the dialog */
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                InicioS dialog = new InicioS(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                new InicioSe().setVisible(true);
             }
         });
     }
@@ -156,8 +184,6 @@ public class InicioS extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel7;
     private org.edisoncor.gui.panel.PanelCurves panelCurves1;
-    private org.edisoncor.gui.varios.PanelDeslizante panelDeslizante1;
-    private org.edisoncor.gui.panel.PanelNice panelNice1;
-    private org.edisoncor.gui.passwordField.PasswordFieldRectIcon passwordFieldRectIcon1;
+    private org.edisoncor.gui.passwordField.PasswordFieldRectIcon txtPass;
     // End of variables declaration//GEN-END:variables
 }

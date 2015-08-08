@@ -5,9 +5,15 @@
  */
 package com.app;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -29,6 +35,18 @@ public class SeleccionarReporte extends javax.swing.JDialog {
         initComponents();
          this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
          setLocationRelativeTo(null);//Centrar Formulario.
+         addEscapeKey();
+    }
+    private void addEscapeKey(){
+        KeyStroke escape = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
+        Action escapeAction = new AbstractAction(){
+           @Override
+           public void actionPerformed(ActionEvent e){
+               dispose();
+           }      
+        };
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escape, "ESCAPE");
+        getRootPane().getActionMap().put("ESCAPE", escapeAction);
     }
 
     /**
@@ -190,17 +208,19 @@ public class SeleccionarReporte extends javax.swing.JDialog {
     }//GEN-LAST:event_btnPresentacionMouseClicked
 
      private void llamarReporteVenta() {
-        ReporteVenta rv = new ReporteVenta(/*new javax.swing.JFrame(), true*/);
+         
+        ReporteVenta rv = new ReporteVenta(new Principal(), true);
        // rv.setDefaultCloseOperation(HIDE_ON_CLOSE);
         rv.setTitle("Reportes de Ventas");
+        rv.setModal(true);
         rv.setVisible(true);
     }
 
     private void llamarReporteCompra() {
-        Principal pr = new Principal();
-        ReporteCompra rc = new ReporteCompra(pr, true);
+        ReporteCompra rc = new ReporteCompra(new Principal(), true);
        // rc.setDefaultCloseOperation(HIDE_ON_CLOSE);
         rc.setTitle("Reportes de Compras");
+        rc.setModal(true);
         rc.setVisible(true);
     }
     /**

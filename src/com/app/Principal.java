@@ -54,20 +54,20 @@ public class Principal extends javax.swing.JFrame{
      */
     public Principal() {
         initComponents();
-        //Centrar Formulario.
-        setLocationRelativeTo(null);
-        jLabel4.setEnabled(true);
-        //Arrancar maximizado el formulario
+        hibernateSession();
         setExtendedState(MAXIMIZED_BOTH);
         //Especificar un icono para la aplicación: "png" "jpg" 
         setIconImage(new ImageIcon(ClassLoader.getSystemResource("com/img/logos.png")).getImage());
+        setLocationRelativeTo(null);
         Timestamp stamp = new Timestamp(System.currentTimeMillis());
         Date date2 = new Date(stamp.getTime());
         SimpleDateFormat formato = new SimpleDateFormat("YYYY-MM-dd");
-        hibernateSession();
+        jToolBar1.setVisible(true);
+        jTabbedPane1.setVisible(true);
+        jLabel4.setEnabled(true);
         llamarpanel();
     }
-
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -84,7 +84,6 @@ public class Principal extends javax.swing.JFrame{
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
@@ -149,16 +148,6 @@ public class Principal extends javax.swing.JFrame{
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Comfortaa", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/img/Search-good-icon.png"))); // NOI18N
-        jLabel5.setText("Medicamentos");
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
-            }
-        });
-
         jLabel8.setFont(new java.awt.Font("Comfortaa", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/img/Truck-icon.png"))); // NOI18N
@@ -209,12 +198,11 @@ public class Principal extends javax.swing.JFrame{
             .addGroup(panelCurves1Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addGroup(panelCurves1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
                     .addComponent(jLabel3)
                     .addComponent(jLabel19)
                     .addComponent(jLabel4)
                     .addComponent(jLabel8))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 48, Short.MAX_VALUE))
         );
         panelCurves1Layout.setVerticalGroup(
             panelCurves1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -233,11 +221,9 @@ public class Principal extends javax.swing.JFrame{
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel8)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(146, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelNice1Layout = new javax.swing.GroupLayout(panelNice1);
@@ -373,7 +359,7 @@ public class Principal extends javax.swing.JFrame{
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jTabbedPane1)
         );
 
@@ -431,7 +417,7 @@ public class Principal extends javax.swing.JFrame{
         jLabel4.setBorder(null);
         jLabel8.setBorder(null);
         jLabel21.setBorder(null);
-        jLabel5.setBorder(null);
+        //jLabel5.setBorder(null);
         llamarPanelCompras();
         
         
@@ -445,7 +431,7 @@ public class Principal extends javax.swing.JFrame{
         jLabel3.setBorder(border);
         jLabel4.setBorder(null);
         jLabel8.setBorder(null);
-        jLabel5.setBorder(null);
+        //jLabel5.setBorder(null);
         jLabel21.setBorder(null);
         llamarVentas();
         llamarpanel();
@@ -460,7 +446,7 @@ public class Principal extends javax.swing.JFrame{
         jLabel3.setBorder(null);
         jLabel4.setBorder(border);
         jLabel8.setBorder(null);
-        jLabel5.setBorder(null);
+        //jLabel5.setBorder(null);
         jLabel21.setBorder(null);
         SeleccionarReporte sr = new SeleccionarReporte(this, true);
         sr.setTitle("Seleccionar tipo de reporte");
@@ -468,39 +454,13 @@ public class Principal extends javax.swing.JFrame{
         
     }//GEN-LAST:event_jLabel4MouseClicked
 
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        // TODO add your handling code here:
-        Border border = new OvalBorder();
-        jLabel19.setBorder(null);
-        jLabel22.setBorder(null);
-        jLabel3.setBorder(null);
-        jLabel4.setBorder(null);
-        jLabel21.setBorder(null);
-        jLabel5.setBorder(border);
-        jLabel8.setBorder(null);
-        llamarArticulo();
-    }//GEN-LAST:event_jLabel5MouseClicked
-
-    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-        // TODO add your handling code here:
-        Border border = new OvalBorder();
-        jLabel19.setBorder(null);
-        jLabel22.setBorder(null);
-        jLabel3.setBorder(null);
-        jLabel4.setBorder(null);
-        jLabel5.setBorder(null);
-        jLabel21.setBorder(null);
-        jLabel8.setBorder(border);
-        llamarProveedor();
-    }//GEN-LAST:event_jLabel8MouseClicked
-
     private void jLabel21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel21MouseClicked
         Border border = new OvalBorder();
         jLabel19.setBorder(null);
         jLabel22.setBorder(null);
         jLabel3.setBorder(null);
         jLabel4.setBorder(null);
-        jLabel5.setBorder(null);
+        //jLabel5.setBorder(null);
         jLabel8.setBorder(null);
         jLabel21.setBorder(border);
         llamarProductos();
@@ -521,6 +481,19 @@ public class Principal extends javax.swing.JFrame{
         // TODO add your handling code here:
         llamarpanel();
     }//GEN-LAST:event_jLabel22MouseClicked
+
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        // TODO add your handling code here:
+        Border border = new OvalBorder();
+        jLabel19.setBorder(null);
+        jLabel22.setBorder(null);
+        jLabel3.setBorder(null);
+        jLabel4.setBorder(null);
+        //jLabel5.setBorder(null);
+        jLabel21.setBorder(null);
+        jLabel8.setBorder(border);
+        llamarProveedor();
+    }//GEN-LAST:event_jLabel8MouseClicked
 
     /**
      * @param args the command line arguments
@@ -565,7 +538,6 @@ public class Principal extends javax.swing.JFrame{
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -611,7 +583,7 @@ public class Principal extends javax.swing.JFrame{
     }
     private void llamarVentasP(){
         this.jTabbedPane1.removeAll();
-        pClientes clientes = new pClientes();
+        Pproveedor clientes = new Pproveedor();
         this.jTabbedPane1.add(clientes);
         clientes.setVisible(true);
         this.jTabbedPane1.setTitleAt(0, "Seleccione el Cliente");
@@ -627,7 +599,7 @@ public class Principal extends javax.swing.JFrame{
         jLabel4.setBorder(null);
         jLabel8.setBorder(null);
         jLabel21.setBorder(null);
-        jLabel5.setBorder(null);
+        //jLabel5.setBorder(null);
         this.jTabbedPane1.removeAll();
         pPrincipal principal = new pPrincipal();
         this.jTabbedPane1.add(principal);
@@ -661,7 +633,7 @@ public class Principal extends javax.swing.JFrame{
     }
 
     private void llamarArticulo() {
-        ArticuloApp a = new ArticuloApp(/*this, true*/);
+        ArticuloApp a = new ArticuloApp(this, true);
       //  a.setDefaultCloseOperation(HIDE_ON_CLOSE);
         a.setTitle("Formulario de Artículos");
         a.setVisible(true);
@@ -682,14 +654,17 @@ public class Principal extends javax.swing.JFrame{
     }
 
     private void llamarProveedor() {
-        ProveedorApp p = new ProveedorApp(/*this, true*/);
-       // p.setDefaultCloseOperation(HIDE_ON_CLOSE);
-        p.setTitle("Formulario de Proveedores");
-        p.setVisible(true);
+        this.jTabbedPane1.removeAll();
+        Pproveedor pp = new Pproveedor();
+        this.jTabbedPane1.add(pp);
+        this.jTabbedPane1.setSize(jTabbedPane1.getHeight(), jTabbedPane1.getWidth());
+        this.jTabbedPane1.setMaximumSize(this.jTabbedPane1.getSize());
+        pp.setVisible(true);
+        this.jTabbedPane1.setTitleAt(0, "Proveedores");
     }
 
     private void llamarReporteVenta() {
-        ReporteVenta rv = new ReporteVenta(/*this, true*/);
+        ReporteVenta rv = new ReporteVenta(this, true);
        // rv.setDefaultCloseOperation(HIDE_ON_CLOSE);
         rv.setTitle("Reportes de Ventas");
         rv.setVisible(true);

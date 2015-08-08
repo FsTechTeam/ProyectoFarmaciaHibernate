@@ -95,6 +95,7 @@ public class ReporteCompra extends javax.swing.JDialog {
         jFecha5 = new com.toedter.calendar.JDateChooser();
         jFecha6 = new com.toedter.calendar.JDateChooser();
         btnGuardar2 = new org.edisoncor.gui.button.ButtonSeven();
+        btnPresentacion = new org.edisoncor.gui.button.ButtonSeven();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Formulario de Reportes");
@@ -331,6 +332,20 @@ public class ReporteCompra extends javax.swing.JDialog {
                 .addGap(13, 13, 13))
         );
 
+        btnPresentacion.setBackground(new java.awt.Color(255, 0, 51));
+        btnPresentacion.setText("Salir");
+        btnPresentacion.setFont(new java.awt.Font("Century Gothic", 1, 10)); // NOI18N
+        btnPresentacion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPresentacionMouseClicked(evt);
+            }
+        });
+        btnPresentacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPresentacionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -353,7 +368,9 @@ public class ReporteCompra extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(427, 427, 427))
+                .addGap(371, 371, 371)
+                .addComponent(btnPresentacion, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -371,8 +388,10 @@ public class ReporteCompra extends javax.swing.JDialog {
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(btnPresentacion, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -489,6 +508,17 @@ public class ReporteCompra extends javax.swing.JDialog {
             }
     }//GEN-LAST:event_btnGuardar2ActionPerformed
 
+    private void btnPresentacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPresentacionMouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_btnPresentacionMouseClicked
+
+    private void btnPresentacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPresentacionActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+
+    }//GEN-LAST:event_btnPresentacionActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -539,6 +569,7 @@ public class ReporteCompra extends javax.swing.JDialog {
     private org.edisoncor.gui.button.ButtonSeven btnGuardar;
     private org.edisoncor.gui.button.ButtonSeven btnGuardar1;
     private org.edisoncor.gui.button.ButtonSeven btnGuardar2;
+    private org.edisoncor.gui.button.ButtonSeven btnPresentacion;
     private com.toedter.calendar.JDateChooser jFecha1;
     private com.toedter.calendar.JDateChooser jFecha2;
     private com.toedter.calendar.JDateChooser jFecha3;
@@ -635,10 +666,12 @@ private void arranque(){
 public void llamarReporteCompraProducto(int id, Date fecha1, Date fecha2, String NFactura) throws ParseException{
        IniciarReportes ir = new IniciarReportes();
        ir.ReporteCompras(id,fecha1,fecha2, NFactura);
+       this.dispose();
 }
 public void llamarReporteProveedor(int idP, Date fecha1, Date fecha2){
     IniciarReportes ir = new IniciarReportes();
     ir.ReporteProveedor(idP, fecha1, fecha2);
+    this.dispose();
 }
 
 
