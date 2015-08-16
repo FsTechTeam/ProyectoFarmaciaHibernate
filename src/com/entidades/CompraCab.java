@@ -37,7 +37,16 @@ public class CompraCab implements Serializable {
     private double total;
     private String NFactura;
     private String Serie;
+    private boolean pagado;
 
+    public boolean isPagado() {
+        return pagado;
+    }
+
+    public void setPagado(boolean pagado) {
+        this.pagado = pagado;
+    }
+    
     public String getNFactura() {
         return NFactura;
     }

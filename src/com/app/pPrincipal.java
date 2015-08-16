@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -44,6 +45,7 @@ public class pPrincipal extends javax.swing.JPanel {
     /**
      * Creates new form pPrincipal
      */
+    int contTotal=0;
     public pPrincipal() {
         initComponents();
         Timestamp stamp = new Timestamp(System.currentTimeMillis());
@@ -95,6 +97,11 @@ public class pPrincipal extends javax.swing.JPanel {
         jSeparator3 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         salidat = new javax.swing.JTextField();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        labelDia = new javax.swing.JLabel();
+        labelTotal = new javax.swing.JLabel();
 
         jMenuItem1.setText("Pagada");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -120,17 +127,17 @@ public class pPrincipal extends javax.swing.JPanel {
         jTable1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "idOrden", "N. Orden", "Hora Venta", "Total", "Estado"
+                "idOrden", "Hora Venta", "Total", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -256,6 +263,58 @@ public class pPrincipal extends javax.swing.JPanel {
         salidat.setEditable(false);
         salidat.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
 
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ordenes", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Comfortaa", 0, 12))); // NOI18N
+
+        jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        jLabel2.setText("# de Ventas del dia:");
+
+        jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        jLabel3.setText("# de Ventas Totales:");
+
+        labelDia.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        labelDia.setForeground(new java.awt.Color(204, 0, 51));
+        labelDia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelDia.setText("#  DIa");
+
+        labelTotal.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        labelTotal.setForeground(new java.awt.Color(204, 0, 51));
+        labelTotal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelTotal.setText("#  TOTALES");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 12, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelDia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelTotal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(labelDia)
+                .addGap(20, 20, 20)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(labelTotal)
+                .addContainerGap(39, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -263,6 +322,7 @@ public class pPrincipal extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(16, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -296,9 +356,11 @@ public class pPrincipal extends javax.swing.JPanel {
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -350,7 +412,7 @@ public class pPrincipal extends javax.swing.JPanel {
                                     .addComponent(buttonTransluceIcon2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(buttonTransluceIcon1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(12, 12, 12)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)))))
+                                .addComponent(jScrollPane1)))))
                 .addGap(19, 19, 19))
         );
 
@@ -450,18 +512,60 @@ public class pPrincipal extends javax.swing.JPanel {
         st.getTransaction().commit();
     }
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-       
+       if(evt.getClickCount()==2){
+           if(jTable1.getSelectedRow()>=0){
+            try{
+                int selectedRow= this.jTable1.getSelectedRow();
+                Object valueAt = model.getValueAt(selectedRow, 0);
+                int idVenta = Integer.parseInt(valueAt.toString());
+                Principal p = new Principal();
+                pDetalle pd = new pDetalle(p, true, idVenta);
+                pd.setModal(true);
+                pd.setVisible(true);
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Hubo un error, verifique.");
+
+            }
+           }
+       }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
         try{
-        int selectedRow = this.jTable1.getSelectedRow();
-      //Se obtiene el "id" del registro que esta en la columna "0"
-        int idVenta = Integer.parseInt(String.valueOf(model.getValueAt(selectedRow, 0)));
-        eliminarVentas(idVenta);
+            if(this.jTable1.getSelectedRow()>=0){
+                String pass=null;
+                JPanel panel = new JPanel();
+                JLabel label = new JLabel("Ingrese su clave de acceso:");
+                JPasswordField passw = new JPasswordField(10);
+                panel.add(label);
+                panel.add(passw);
+                String[] options = new String[]{"CANCELAR", "OK"};
+                int option = JOptionPane.showOptionDialog(null, panel, "ELIMNAR VENTA",
+                             JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE,
+                             null, options, options[1]);
+                if(option == 1) // pressing OK button
+                {
+                    char[] password = passw.getPassword();
+                    pass= new String(password);
+                    int idUs=1;
+                    Usuarios us = (Usuarios)st.load(Usuarios.class, idUs);
+                    String Upass=us.getPass();
+                    if (Upass.equals(pass)) {
+                         int selectedRow = this.jTable1.getSelectedRow();
+                         //Se obtiene el "id" del registro que esta en la columna "0"
+                         int idVenta = Integer.parseInt(String.valueOf(model.getValueAt(selectedRow, 0)));
+                         eliminarVentas(idVenta);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Clave de acceso incorrecta, Venta no eliminada.");
+                    }
+                }
+            }else{
+                 JOptionPane.showMessageDialog(null, "Seleccione una fila");
+            }
+            
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Seleccione una fila, error: "+e);
+            JOptionPane.showMessageDialog(null, "Seleccione una fila");
         }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
@@ -492,34 +596,39 @@ public class pPrincipal extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGuardar1ActionPerformed
 
     private void btnGuardar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardar2ActionPerformed
-        // TODO add your handling code here:
+
         try{
-            String pass=null;
-            JPanel panel = new JPanel();
-            JLabel label = new JLabel("Ingrese su clave de acceso:");
-            JPasswordField passw = new JPasswordField(10);
-            panel.add(label);
-            panel.add(passw);
-            String[] options = new String[]{"CANCELAR", "OK"};
-            int option = JOptionPane.showOptionDialog(null, panel, "ELIMNAR VENTA",
-                         JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE,
-                         null, options, options[1]);
-            if(option == 1) // pressing OK button
-            {
-                char[] password = passw.getPassword();
-                pass= new String(password);
-            }
-            int idUs=1;
-            Usuarios us = (Usuarios)st.load(Usuarios.class, idUs);
-            String Upass=us.getPass();
-                if (Upass.equals(pass)) {
-                     int selectedRow = this.jTable1.getSelectedRow();
-                     //Se obtiene el "id" del registro que esta en la columna "0"
-                     int idVenta = Integer.parseInt(String.valueOf(model.getValueAt(selectedRow, 0)));
-                     eliminarVentas(idVenta);
-                }else{
-                    JOptionPane.showMessageDialog(null, "Clave de acceso incorrecta, Venta no eliminada.");
+            if(this.jTable1.getSelectedRow()>=0){
+                String pass=null;
+                JPanel panel = new JPanel();
+                JLabel label = new JLabel("Ingrese su clave de acceso:");
+                JPasswordField passw = new JPasswordField(10);
+                panel.add(label);
+                panel.add(passw);
+                String[] options = new String[]{"CANCELAR", "OK"};
+                int option = JOptionPane.showOptionDialog(null, panel, "ELIMNAR VENTA",
+                             JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE,
+                             null, options, options[1]);
+                if(option == 1) // pressing OK button
+                {
+                    char[] password = passw.getPassword();
+                    pass= new String(password);
+                    int idUs=1;
+                    Usuarios us = (Usuarios)st.load(Usuarios.class, idUs);
+                    String Upass=us.getPass();
+                    if (Upass.equals(pass)) {
+                         int selectedRow = this.jTable1.getSelectedRow();
+                         //Se obtiene el "id" del registro que esta en la columna "0"
+                         int idVenta = Integer.parseInt(String.valueOf(model.getValueAt(selectedRow, 0)));
+                         eliminarVentas(idVenta);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Clave de acceso incorrecta, Venta no eliminada.");
+                    }
                 }
+            }else{
+                 JOptionPane.showMessageDialog(null, "Seleccione una fila");
+            }
+            
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "Seleccione una fila");
         }
@@ -569,13 +678,23 @@ public class pPrincipal extends javax.swing.JPanel {
     public void arranque() {
         Tablemodel();
         cargarTabla();
+        calcVentas();
+    }
+    public void calcVentas(){
+        contTotal=0;
+        List<VentaCab> lista = (List<VentaCab>)st.createQuery("From VentaCab").list();
+        for (Iterator<VentaCab> it = lista.iterator(); it.hasNext();) {
+            VentaCab ventaCab = it.next();
+            contTotal++;
+        }
+        labelTotal.setText(String.valueOf(contTotal)+ ".");
     }
     public void Tablemodel() {
         this.jTable1.setRowHeight(20);
-        this.jTable1.getColumnModel().getColumn(0).setPreferredWidth(7);
+        this.jTable1.getColumnModel().getColumn(0).setPreferredWidth(15);
         this.jTable1.getColumnModel().getColumn(1).setPreferredWidth(15);
         this.jTable1.getColumnModel().getColumn(2).setPreferredWidth(100);
-        this.jTable1.getColumnModel().getColumn(3).setPreferredWidth(80);
+        this.jTable1.getColumnModel().getColumn(3).setPreferredWidth(15);
         model = (DefaultTableModel)this.jTable1.getModel();
         model.setNumRows(0);
     }
@@ -585,18 +704,24 @@ public class pPrincipal extends javax.swing.JPanel {
         String fecha = formato.format(jDateChooser1.getDate());
         List<VentaDet> lista = (List<VentaDet>) st.createQuery("From VentaDet group by VentaCab_num").list();
         double contador=0;
+        int contVentas=0;
         for (VentaDet ventaList : lista) {
+            
             String date = "" + formato.format(ventaList.getVentaCab().getFecha().getTime());
             if (date.equals(fecha)) {
                 model.addRow(new Object[]{
-                    ventaList.getVentaCab().getNum(), ventaList.getVentaCab().getNumorden(), ventaList.getVentaCab().getHora(),"Q. " + ventaList.getVentaCab().getTotal(), ventaList.getVentaCab().isPagado()});
+                    ventaList.getVentaCab().getNum(), ventaList.getVentaCab().getHora(),new java.text.DecimalFormat("Q #,##0.00").format(Double.valueOf(ventaList.getVentaCab().getTotal())), ventaList.getVentaCab().isPagado()});
                 if(ventaList.getVentaCab().isPagado()==true){
                     contador=contador+ ventaList.getVentaCab().getTotal();
                 }
+                
+                contVentas++;
                 contador = Math.rint(contador*100)/100;
             }
         }
-        salidat.setText("Q. "+contador);
+        labelDia.setText(String.valueOf(contVentas+ "."));
+        salidat.setText(new java.text.DecimalFormat("Q #,##0.00").format(Double.valueOf(contador)));
+        
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.edisoncor.gui.button.ButtonSeven btnGuardar;
@@ -608,6 +733,8 @@ public class pPrincipal extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JMenuItem jMenuItem1;
@@ -615,6 +742,7 @@ public class pPrincipal extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator2;
@@ -622,6 +750,8 @@ public class pPrincipal extends javax.swing.JPanel {
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JLabel labelDia;
+    private javax.swing.JLabel labelTotal;
     private javax.swing.JTextField salidat;
     // End of variables declaration//GEN-END:variables
 }

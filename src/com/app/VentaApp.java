@@ -61,13 +61,14 @@ public class VentaApp extends javax.swing.JDialog {
         jRadioButton3.setSelected(true);
         pagada=true;
         
+        
 
     }
     
     static Principal prin = new Principal();
     private DefaultTableModel model;
     private Session st;
-    private int var,idArtt,numVenta;
+    private int var,idArtt,numVenta, contTotal, totalGeneralT;
    // List<Articulo>  lista = (List<Articulo>)st.createQuery("From Articulo").list();
 
     /** This method is called from within the constructor to
@@ -306,6 +307,11 @@ public class VentaApp extends javax.swing.JDialog {
                 agregarActionPerformed(evt);
             }
         });
+        agregar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                agregarKeyPressed(evt);
+            }
+        });
 
         jTable1.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -348,6 +354,11 @@ public class VentaApp extends javax.swing.JDialog {
         jLabel15.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel15.setText("Cantidad:");
 
+        cantidad.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                cantidadFocusLost(evt);
+            }
+        });
         cantidad.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 cantidadKeyPressed(evt);
@@ -659,6 +670,18 @@ public class VentaApp extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jRadioButton3ActionPerformed
 
+    private void cantidadFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cantidadFocusLost
+         
+         
+    }//GEN-LAST:event_cantidadFocusLost
+
+    private void agregarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_agregarKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            agregar();
+        }
+    }//GEN-LAST:event_agregarKeyPressed
+
     DefaultComboBoxModel combomodel;
 
     private void addEscapeKey(){
@@ -884,13 +907,16 @@ public void nuevo(){
 }
 public void obtenetID(){
     numVenta = 0;
+    contTotal=0;
     List<VentaCab> lista = (List<VentaCab>)st.createQuery("From VentaCab").list();
     for (Iterator<VentaCab> it = lista.iterator(); it.hasNext();) {
         VentaCab ventaCab = it.next();
         numVenta = ventaCab.getNum() + 1;
+        contTotal++;
     }
     if(numVenta==0){
         numVenta=1;
+        contTotal=1;
     } 
 }
 public void buscarArticulo(){
@@ -923,8 +949,9 @@ public void buscarArticulocom(){
         this.desArt1.setText(art.getDes());
         this.pve.setText(String.valueOf(art.getPve()));
         this.can.setText(String.valueOf(art.getCan()));
-        this.cantidad.requestFocus();
         this.idArt.setText(""+idArti);
+        this.cantidad.setEnabled(true);
+        this.cantidad.requestFocus();
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "No hay artículo con ID: " + idArti);
     }    
@@ -940,16 +967,21 @@ public void calcularParcial(){
     double totalParcial = 0 ;
     try {
         canVent = Integer.parseInt(this.cantidad.getText());
-        pVenta = Double.parseDouble(this.pve.getText());
-        stock = Integer.parseInt(this.can.getText());
-        if(stock < canVent){
-             JOptionPane.showMessageDialog(null, "Stock insuficiente.");
-        }
-        else{
-           totalParcial = canVent * pVenta;
-           totalParcial = Math.rint(totalParcial*100)/100;
-           this.total.setText(String.valueOf(totalParcial)); 
-           this.agregar.requestFocus();
+        if(canVent > 0){
+            pVenta = Double.parseDouble(this.pve.getText());
+            stock = Integer.parseInt(this.can.getText());
+            if(stock < canVent){
+                 JOptionPane.showMessageDialog(null, "Stock insuficiente.");
+            }else{
+               totalParcial = canVent * pVenta;
+               totalParcial = Math.rint(totalParcial*100)/100;
+               this.total.setText(String.valueOf(totalParcial)); 
+               this.agregar.requestFocus();
+            }
+        }else{
+            this.total.setText(""); 
+            JOptionPane.showMessageDialog(null,"Debe ingresar una cantidad mayor a 0");
+            cantidad.setText("");
         }
         
     } catch (Exception e) {
@@ -1011,8 +1043,9 @@ public void agregar(){
                 JOptionPane.showMessageDialog(null, "Seleccione un articulo.");
             }
             else{
-                if(this.cantidad.getText().isEmpty()){
+                if(this.cantidad.getText().isEmpty()&&total.getText().isEmpty()){
                     JOptionPane.showMessageDialog(null, "Indique una cantidad.");
+                    can.requestFocus();
                 }
                 else{
                     verificar();
@@ -1071,6 +1104,7 @@ public void calcular(){
         totalG += Double.parseDouble(valueAt.toString());
     }
     this.totalGeneral.setText(String.valueOf(totalG));
+    
 }
 public void verificar(){
     var = 0;

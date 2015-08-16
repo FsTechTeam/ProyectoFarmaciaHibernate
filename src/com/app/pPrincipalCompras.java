@@ -93,6 +93,9 @@ public class pPrincipalCompras extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jLabel19 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        btnGuardar = new org.edisoncor.gui.button.ButtonSeven();
+        btnGuardar1 = new org.edisoncor.gui.button.ButtonSeven();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setMaximumSize(new java.awt.Dimension(1002, 734));
@@ -106,15 +109,28 @@ public class pPrincipalCompras extends javax.swing.JPanel {
         jTable1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "N. Compra", "N. Factura", "Proveedor", "Total"
+                "N. Compra", "N. Factura", "Proveedor", "Total", "Estado"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -159,6 +175,48 @@ public class pPrincipalCompras extends javax.swing.JPanel {
             }
         });
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Opciones", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Comfortaa", 0, 12))); // NOI18N
+
+        btnGuardar.setBackground(new java.awt.Color(0, 204, 0));
+        btnGuardar.setText("Pagado");
+        btnGuardar.setFont(new java.awt.Font("Comfortaa", 1, 12)); // NOI18N
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
+        btnGuardar1.setBackground(new java.awt.Color(255, 0, 0));
+        btnGuardar1.setText("Pendiente");
+        btnGuardar1.setFont(new java.awt.Font("Comfortaa", 1, 12)); // NOI18N
+        btnGuardar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardar1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGuardar1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuardar1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -188,8 +246,9 @@ public class pPrincipalCompras extends javax.swing.JPanel {
                     .addComponent(jLabel1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(jLabel19)))
-                .addGap(19, 19, 19))
+                        .addComponent(jLabel19))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(7, 7, 7))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,7 +264,7 @@ public class pPrincipalCompras extends javax.swing.JPanel {
                             .addComponent(buttonTransluceIcon1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)))
                 .addGap(19, 19, 19))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,7 +278,9 @@ public class pPrincipalCompras extends javax.swing.JPanel {
                         .addComponent(jLabel6)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel19)
-                .addContainerGap(459, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -265,6 +326,71 @@ public class pPrincipalCompras extends javax.swing.JPanel {
         llamarCompras();
         arranque();
     }//GEN-LAST:event_jLabel19MouseClicked
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        try{
+            int selectedRow = this.jTable1.getSelectedRow();
+            //Se obtiene el "id" del registro que esta en la columna "0"
+            int idCompra = Integer.parseInt(String.valueOf(model.getValueAt(selectedRow, 0)));
+            pagarCompra(idCompra);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Seleccione una fila.");
+        }
+
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+     public void pagarCompra(int idC){
+        st.beginTransaction();
+        CompraCab compra = (CompraCab)st.load(CompraCab.class, idC);
+        compra.setPagado(true);
+        st.update(compra);
+        st.getTransaction().commit();
+        arranque();
+        JOptionPane.showMessageDialog(null, "Compra Pagada");
+    }
+     public void pendienteCompra(int idC){
+        st.beginTransaction();
+        CompraCab compra = (CompraCab)st.load(CompraCab.class, idC);
+        compra.setPagado(false);
+        st.update(compra);
+        st.getTransaction().commit();
+        arranque();
+        JOptionPane.showMessageDialog(null, "Compra Pendiente");
+    
+    }
+    private void btnGuardar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardar1ActionPerformed
+        // TODO add your handling code here:
+        try{
+            int selectedRow = this.jTable1.getSelectedRow();
+            //Se obtiene el "id" del registro que esta en la columna "0"
+            int idCompra = Integer.parseInt(String.valueOf(model.getValueAt(selectedRow, 0)));
+            pendienteCompra(idCompra);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Seleccione una fila.");
+        }
+    }//GEN-LAST:event_btnGuardar1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        if(evt.getClickCount()==2){
+           if(jTable1.getSelectedRow()>=0){
+            try{
+                int selectedRow= this.jTable1.getSelectedRow();
+                Object valueAt = model.getValueAt(selectedRow, 0);
+                int idCompra = Integer.parseInt(valueAt.toString());
+                Principal p = new Principal();
+                pDetalleCompra pd = new pDetalleCompra(p, true, idCompra);
+                pd.setModal(true);
+                pd.setVisible(true);
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Hubo un error, verifique.");
+
+            }
+           }
+       }
+        
+    }//GEN-LAST:event_jTable1MouseClicked
    
     
     private void llamarCompras() {
@@ -303,6 +429,7 @@ public class pPrincipalCompras extends javax.swing.JPanel {
         this.jTable1.getColumnModel().getColumn(1).setPreferredWidth(150);
         this.jTable1.getColumnModel().getColumn(2).setPreferredWidth(100);
         this.jTable1.getColumnModel().getColumn(3).setPreferredWidth(80);
+        this.jTable1.getColumnModel().getColumn(4).setPreferredWidth(40);
         model = (DefaultTableModel)this.jTable1.getModel();
         model.setNumRows(0);
     }
@@ -320,16 +447,19 @@ public class pPrincipalCompras extends javax.swing.JPanel {
             String date = "" + formato.format(ventaList.getCabecera().getFecha().getTime());
             if (date.equals(fecha)) {
                 model.addRow(new Object[]{
-                    ventaList.getCabecera().getNum(), ventaList.getCabecera().getNFactura(),ventaList.getCabecera().getProveedor().getDes(),"Q. " + ventaList.getCabecera().getTotal()});
+                    ventaList.getCabecera().getNum(), ventaList.getCabecera().getNFactura(),ventaList.getCabecera().getProveedor().getDes(),new java.text.DecimalFormat("Q #,##0.00").format(Double.valueOf(ventaList.getCabecera().getTotal())), ventaList.getCabecera().isPagado()});
                 contador=contador+ ventaList.getCabecera().getTotal();
                 contador = Math.rint(contador*100)/100;
+                
                
             }
         }
-            salidat.setText("Q. "+contador);
+            salidat.setText(new java.text.DecimalFormat("Q #,##0.00").format(Double.valueOf(contador)));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.edisoncor.gui.button.ButtonSeven btnGuardar;
+    private org.edisoncor.gui.button.ButtonSeven btnGuardar1;
     private org.edisoncor.gui.button.ButtonTransluceIcon buttonTransluceIcon1;
     private org.edisoncor.gui.button.ButtonTransluceIcon buttonTransluceIcon2;
     private com.toedter.calendar.JDateChooser jDateChooser1;
@@ -338,6 +468,7 @@ public class pPrincipalCompras extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTable jTable1;

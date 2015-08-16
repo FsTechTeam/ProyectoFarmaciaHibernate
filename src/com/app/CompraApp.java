@@ -328,6 +328,11 @@ public class CompraApp extends javax.swing.JDialog {
                 agregarActionPerformed(evt);
             }
         });
+        agregar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                agregarKeyPressed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -868,6 +873,13 @@ public class CompraApp extends javax.swing.JDialog {
 
     }//GEN-LAST:event_cmbLoteFocusLost
 
+    private void agregarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_agregarKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            agregar();
+        }
+    }//GEN-LAST:event_agregarKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -1092,11 +1104,16 @@ public void calcularParcial(){
     double totalParcial = 0 ;
     try {
         canCompra = Double.parseDouble(this.cantidad.getText());
+        if(canCompra>0){
         pCompra = Double.parseDouble(this.pco.getText());       
            totalParcial = canCompra * pCompra;
            totalParcial=Math.rint(totalParcial*100)/100;
            this.total.setText(String.valueOf(totalParcial)); 
            this.agregar.requestFocus();
+        }else{
+            JOptionPane.showMessageDialog(null, "La cantidad debe ser mayor a 0.");
+            cantidad.setText("");
+        }
            
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Se requiere datos numérico.");

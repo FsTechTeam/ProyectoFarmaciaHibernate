@@ -37,6 +37,16 @@ public class CellRendererComp extends DefaultTableCellRenderer implements TableC
             setBackground(c);
                 
         }
+        if(String.valueOf(table.getValueAt(row,4)).equals("false")){
+            table.setValueAt("PENDIENTE", row, 4);
+        }
+        if(String.valueOf(table.getValueAt(row,4)).equals("true")){
+            table.setValueAt("PAGADO", row, 4);
+        }
+        if(String.valueOf(table.getValueAt(row,4)).equals("PENDIENTE")){
+           Color color = new Color(224, 50, 37); 
+           setBackground(color);
+        }
         return this;
     }
 

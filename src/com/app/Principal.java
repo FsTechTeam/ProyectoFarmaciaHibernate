@@ -11,14 +11,6 @@
 package com.app;
 
 import OtrasClases.OvalBorder;
-import com.entidades.Articulo;
-import com.entidades.VentaDet;
-import com.reportes.IniciarReportes;
-import com.toedter.calendar.JTextFieldDateEditor;
-import java.awt.Color;
-import java.awt.Component;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
